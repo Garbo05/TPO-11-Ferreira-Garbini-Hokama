@@ -1,7 +1,7 @@
 import random
 import re
 from colorama import Fore, init
-
+init()
 #FUNCIONES
 
 def print_variables(a):
@@ -32,25 +32,27 @@ INTENTOS_MAXIMO = 6
 print("BIENVENIDO A STRINGLE\nEl juego consiste en adivinar una palabra de 5 letras, para ello contas con 6 intentos, despues de cada intento se te informara que letras estan en la palabra y se encuentran en la posicion correcta y cuales forman parte de la palabra, pero estan en la posicion incorrecta")
 
 for intentos in range (1, INTENTOS_MAXIMO+1):
-    palabra = input(f"INTENTO N° {intentos}\nIngrese una palabra de 5 letras:  ")
+    palabra = input(f"\nINTENTO N° {intentos}\nIngrese una palabra de 5 letras: ")
     palabra = verify_guess(palabra)
-    palabra.upper()
+    palabra=palabra.upper()
     print_variables(palabra)
+
     resultado=[]
+
     for i in range (len(palabra)):
         if palabra[i]==palabra_secreta[i]:
-            #letra_verde=Fore.GREEN+palabra[i]
-            resultado.append(Fore.GREEN+palabra[i])
+            letra_verde=Fore.GREEN+palabra[i]
+            resultado.append(letra_verde)
         elif palabra[i] in palabra_secreta:
-            #letra_amarilla=Fore.YELLOW+palabra[i]
-            resultado.append(Fore.YELLOW+palabra[i])
+            letra_amarilla=Fore.YELLOW+palabra[i]
+            resultado.append(letra_amarilla)
         else:
-            # letra_roja=Fore.RED+palabra[i]
-            resultado.append(letra_roja=Fore.RED+palabra[i])
-    print(resultado)
-if palabra==palabra_secreta:
-    print(f"La palabra secreta era {palabra}. Felicidades")
-else:
-    print(f"Mala suerte, se agotaron tus {INTENTOS_MAXIMO} intentos, la palabra secreta era {palabra_secreta}.")                           
+            resultado.append(palabra[i])
+    
+    for i in range(len(resultado)):
+        print(f"{resultado[i]}",end=" ")
 
-#print(Fore.GREEN + palabra)
+    if palabra==palabra_secreta:
+        print(f"La palabra secreta era {palabra}. Felicidades")
+else:
+    print(f"Mala suerte, se agotaron tus {INTENTOS_MAXIMO} intentos, la palabra secreta era {palabra_secreta}.")
