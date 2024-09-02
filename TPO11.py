@@ -7,7 +7,7 @@ FALTA AGREGAR:
 import random
 import re
 from colorama import Fore, init  # Importar colorama para colores en consola
-init()
+init(autoreset=True)
 
 # DICCIONARIO PARA ELIMINAR TILDES
 diccionario_tildes = {
@@ -71,13 +71,13 @@ for intentos in range(1, INTENTOS_MAXIMO+1):
     # Verifica cada letra de la palabra del usuario comparándola con la palabra secreta
     for i in range(len(palabra)):
         if palabra[i] == palabra_secreta[i]:  # Letra en la posición correcta (verde)
-            letra_verde = Fore.GREEN + palabra[i] + Fore.RESET
+            letra_verde = Fore.GREEN + palabra[i]
             resultado.append(letra_verde)
         elif (palabra[i] in palabra_secreta) and palabra[i] != palabra_secreta[i]:  # Letra en la palabra, pero en posición incorrecta (amarillo)
-            letra_amarilla = Fore.YELLOW + palabra[i] + Fore.RESET
+            letra_amarilla = Fore.YELLOW + palabra[i]
             resultado.append(letra_amarilla)
         else:  # Letra no está en la palabra (blanco)
-            letra_blanca = Fore.WHITE + palabra[i] + Fore.RESET
+            letra_blanca = Fore.WHITE + palabra[i]
             resultado.append(letra_blanca)
     
     # Imprimir el resultado del intento con los colores q correspondan
