@@ -2,13 +2,22 @@
 FALTA AGREGAR:
 - lectura de un archivo .txt que funcione como word bank en lugar de leer de una lista
 - verificar que la palabra que ingrese el usuario sea una palabra real (se encuentre en el word bank)
-- convertir palabras con tilde a palabras sin tilde (por ejemplo "ÁRBOL" lo debe leer como "ARBOL")
 """
 
 import random
 import re
 from colorama import Fore, init
 init()
+
+#DICCIONARIO
+
+diccionario_tildes = {
+    'Á': 'A',
+    'É': 'E',
+    'Í': 'I',
+    'Ó': 'O',
+    'Ú': 'U'
+}
 
 #FUNCIONES
 
@@ -22,7 +31,18 @@ def verify_guess(word):
         word = input("No se ingresó ninguna palabra. Ingrese una palabra: ")
     while len(word) != 5:
         word = input("Longitud incorrecta. Ingrese una palabra de 5 letras: ") 
+    
     return word
+
+def remove_accents(word):
+    resultado = ""
+    for letra in word:
+        if letra in diccionario_tildes:
+            resultado += diccionario_tildes[letra]
+        else:
+            resultado += letra
+
+    return resultado
     
 
 #PROGRAMA PRINCIPAL
@@ -40,6 +60,7 @@ for intentos in range (1, INTENTOS_MAXIMO+1):
     palabra = input(f"\nINTENTO N°{intentos}: ")
     palabra = verify_guess(palabra)
     palabra = palabra.upper()
+    palabra = remove_accents(palabra)
     #print_variables(palabra)
 
     resultado = []
