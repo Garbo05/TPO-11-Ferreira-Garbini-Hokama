@@ -52,8 +52,7 @@ def remove_accents(word):
 def play_game(LIST,ATTEMPTS):
 
     # Explicación del modo de juego
-    print("\nEl juego consiste en adivinar una palabra de 5 letras, para ello cuentas con 6 intentos, despues de cada intento se te informará qué letras se encuentran en la palabra y si se encuentran en la posicion correcta, y cuáles forman parte de la palabra, pero estan en la posicion incorrecta")
-
+    print("\nEl juego consiste en adivinar una palabra de 5 letras, para ello cuentas con 6 intentos, despues de cada intento se te informará qué letras se encuentran en la palabra y si se encuentran en la posicion correcta en color VERDE, y cuáles forman parte de la palabra, pero estan en la posicion incorrecta en color AMARILLO")
     # Selecciona aleatoriamente una palabra secreta de la lista
     secret_word = random.choice(LIST)
 
@@ -101,23 +100,7 @@ def play_game(LIST,ATTEMPTS):
 
 # Lista de palabras posibles (temporal; se reemplazará por archivo .txt)
 # Inicializamos la lista en la que se van a agregar las letras que se encuenten en la palabra:
-LISTA_PALABRAS_POSIBLES = [
-    "CARTA",
-    "MANGO",
-    "PERRO",
-    "LUGAR",
-    "SALTA",
-    "LLAMA",
-    "PLUMA",
-    "LIMON",
-    "BOTAS",
-    "TIGRE",
-    "RADIO",
-    "BARCO",
-    "LIBRO",
-    "VERDE",
-    "FLACO"
-]
+LISTA_PALABRAS_POSIBLES = ["CARTA","MANGO","PERRO","LUGAR","SALTA","LLAMA","PLUMA","LIMON","BOTAS","TIGRE","RADIO","BARCO","LIBRO","VERDE","FLACO"]
 
 # Número máximo de intentos
 INTENTOS_MAXIMO = 6
