@@ -6,10 +6,12 @@ FALTA AGREGAR:
 
 import random
 import re
-from colorama import Fore, init  # Importar colorama para colores en consola
-init(autoreset=True)
+# Importar colorama para colores en consola
+from colorama import Fore, init 
+init(autoreset=True) # Los colores vuelven a su estado original luego de cada mensaje.
 
-# DICCIONARIO PARA ELIMINAR TILDES
+#DICCIONARIO PARA ELIMINAR TILDES
+
 diccionario_tildes = {
     'Á': 'A',
     'É': 'E',
@@ -18,7 +20,7 @@ diccionario_tildes = {
     'Ú': 'U'
 }
 
-# FUNCIONES
+#FUNCIONES
 
 # Imprime una variable
 def print_variables(a):
@@ -26,9 +28,9 @@ def print_variables(a):
 
 # Verifica que la palabra ingresada sea válida (solo letras y de longitud 5)
 def verify_guess(word):
-    while word.isalpha() == False:  
+    while word.isalpha() == False:
         word = input("La palabra no puede contener números. Ingrese una palabra válida: ")
-    while word == "":  
+    while word == "":
         word = input("No se ingresó ninguna palabra. Ingrese una palabra: ")
     while len(word) != 5:
         word = input("Longitud incorrecta. Ingrese una palabra de 5 letras: ") 
@@ -39,57 +41,102 @@ def verify_guess(word):
 def remove_accents(word):
     resultado = ""
     for letra in word:
-        if letra in diccionario_tildes: 
+        if letra in diccionario_tildes:
             resultado += diccionario_tildes[letra]
         else:
             resultado += letra
+
     return resultado
 
+# ---- FUNCION MODO NORMAL ---- #
+def play_game(LIST,ATTEMPTS):
 
-# PROGRAMA PRINCIPAL
+    # Explicación del modo de juego
+    print("\nEl juego consiste en adivinar una palabra de 5 letras, para ello cuentas con 6 intentos, despues de cada intento se te informará qué letras se encuentran en la palabra y si se encuentran en la posicion correcta, y cuáles forman parte de la palabra, pero estan en la posicion incorrecta")
+
+    # Selecciona aleatoriamente una palabra secreta de la lista
+    secret_word = random.choice(LIST)
+
+    # Bucle principal para realizar intentos
+    for intentos in range(1,ATTEMPTS+1):
+        palabra = input(f"\nINTENTO N°{intentos}: ")
+        palabra = verify_guess(palabra)
+        palabra = palabra.upper()
+        palabra = remove_accents(palabra)
+
+        resultado = [] # Lista para almacenar el resultado coloreado de cada intento
+
+        # Verifica cada letra de la palabra del usuario comparándola con la palabra secreta
+        for i in range(len(palabra)):
+            if palabra[i]==secret_word[i]:  # Letra en la posición correcta (verde)
+                letra_verde = Fore.GREEN+palabra[i]+Fore.RESET
+                resultado.append(letra_verde)
+
+            elif (palabra[i] in secret_word) and palabra[i] != secret_word[i]:  # Letra en la palabra, pero en posición incorrecta (amarillo)
+                letra_amarilla = Fore.YELLOW+palabra[i]+Fore.RESET
+                resultado.append(letra_amarilla)
+
+            else:  # Letra no está en la palabra (blanco)
+                letra_blanca = Fore.WHITE+palabra[i]+Fore.RESET
+                resultado.append(letra_blanca)
+    
+        # Imprimir el resultado del intento con los colores q correspondan
+        for i in range(len(resultado)):
+            print(f"{resultado[i]}",end=" ")
+
+        print()
+
+        # Si la palabra adivinada es correcta se termina el juego
+        if palabra==secret_word:
+            print(f"\nLa palabra secreta era {palabra}. Felicitaciones!")
+            break
+
+    # Si no se adivina la palabra después del número máximo de intentos se termina el juego
+    if palabra != secret_word:
+        print(f"\nMala suerte, se agotaron tus {INTENTOS_MAXIMO} intentos, la palabra secreta era {secret_word}.")
+
+
+
+#PROGRAMA PRINCIPAL
 
 # Lista de palabras posibles (temporal; se reemplazará por archivo .txt)
-LISTA_PALABRAS_POSIBLES = ["ARBOL","AMIGO","CAJON","CLASE","BOTON"]
+# Inicializamos la lista en la que se van a agregar las letras que se encuenten en la palabra:
+LISTA_PALABRAS_POSIBLES = [
+    "CARTA",
+    "MANGO",
+    "PERRO",
+    "LUGAR",
+    "SALTA",
+    "LLAMA",
+    "PLUMA",
+    "LIMON",
+    "BOTAS",
+    "TIGRE",
+    "RADIO",
+    "BARCO",
+    "LIBRO",
+    "VERDE",
+    "FLACO"
+]
 
-# Selecciona aleatoriamente una palabra secreta de la lista
-palabra_secreta = random.choice(LISTA_PALABRAS_POSIBLES)
+# Número máximo de intentos
+INTENTOS_MAXIMO = 6
 
-INTENTOS_MAXIMO = 6  # Número máximo de intentos
+# Mensaje de bienvenida
+print("\nBIENVENIDO A STRINGLE!")
 
-# Mensaje de bienvenida y explicación del juego
-print("\nBIENVENIDO A STRINGLE!\nEl juego consiste en adivinar una palabra de 5 letras, para ello cuentas con 6 intentos, despues de cada intento se te informará qué letras se encuentran en la palabra y si se encuentran en la posicion correcta, y cuáles forman parte de la palabra, pero estan en la posicion incorrecta")
+bandera = True
+while bandera:
+    modo_normal = play_game(LISTA_PALABRAS_POSIBLES,INTENTOS_MAXIMO)
 
-# Bucle principal para realizar intentos
-for intentos in range(1, INTENTOS_MAXIMO+1):
-    palabra = input(f"\nINTENTO N°{intentos}: ")
-    palabra = verify_guess(palabra)
-    palabra = palabra.upper()
-    palabra = remove_accents(palabra)
+    restart = input("\nLe gustaría volver a jugar? (Y/N): ")
+    restart = restart.upper()
+    while restart != "Y" and restart != "N":
+        restart = input("\nValor ingresado no reconocido. Le gustaría volver a jugar? (Y/N): ")
+        restart.upper()
 
-    resultado = []  # Lista para almacenar el resultado coloreado de cada intento
-
-    # Verifica cada letra de la palabra del usuario comparándola con la palabra secreta
-    for i in range(len(palabra)):
-        if palabra[i] == palabra_secreta[i]:  # Letra en la posición correcta (verde)
-            letra_verde = Fore.GREEN + palabra[i]
-            resultado.append(letra_verde)
-        elif (palabra[i] in palabra_secreta) and palabra[i] != palabra_secreta[i]:  # Letra en la palabra, pero en posición incorrecta (amarillo)
-            letra_amarilla = Fore.YELLOW + palabra[i]
-            resultado.append(letra_amarilla)
-        else:  # Letra no está en la palabra (blanco)
-            letra_blanca = Fore.WHITE + palabra[i]
-            resultado.append(letra_blanca)
-    
-    # Imprimir el resultado del intento con los colores q correspondan
-    for i in range(len(resultado)):
-        print(f"{resultado[i]}", end=" ")
-    print()
-    
-    # Si la palabra adivinada es correcta se termina el juego
-    if palabra == palabra_secreta:
-        print(f"\nLa palabra secreta era {palabra}. Felicitaciones!")
-        exit()
-
-# Si no se adivina la palabra después del número máximo de intentos se termina el juego
-if palabra != palabra_secreta:
-    print(f"\nMala suerte, se agotaron tus {INTENTOS_MAXIMO} intentos, la palabra secreta era {palabra_secreta}.")
+    if restart == "Y":
+        bandera = True
+    else:
+        bandera = False
+        print("\nGracias por jugar!\n")
