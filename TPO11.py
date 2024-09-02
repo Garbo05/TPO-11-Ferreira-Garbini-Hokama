@@ -1,14 +1,16 @@
 """
 FALTA AGREGAR:
-- lectura de un archivo .txt que funcione como word bank en lugar de leer de una lista
-- verificar que la palabra que ingrese el usuario sea una palabra real (se encuentre en el word bank)
+- lectura de un archivo .txt que funcione como word bank
+ en lugar de leer de una lista
+- verificar que la palabra que ingrese el usuario sea una palabra real 
+  (se encuentre en el word bank)
 """
 
 import random
 import re
 # Importar colorama para colores en consola
 from colorama import Fore, init 
-init(autoreset=True) # Los colores vuelven a su estado original luego de cada mensaje.
+init(autoreset=True)  # Los colores vuelven a su estado original luego de cada mensaje.
 
 #DICCIONARIO PARA ELIMINAR TILDES
 
@@ -22,13 +24,14 @@ diccionario_tildes = {
 
 #FUNCIONES
 
+
 # Imprime una variable
 def print_variables(a):
     print(a)
 
 # Verifica que la palabra ingresada sea válida (solo letras y de longitud 5)
 def verify_guess(word):
-    while word.isalpha() == False:
+    while word.isalpha() is False:
         word = input("La palabra no puede contener números. Ingrese una palabra válida: ")
     while word == "":
         word = input("No se ingresó ninguna palabra. Ingrese una palabra: ")
