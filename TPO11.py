@@ -1,7 +1,15 @@
+"""
+FALTA AGREGAR:
+- lectura de un archivo .txt que funcione como word bank en lugar de leer de una lista
+- verificar que la palabra que ingrese el usuario sea una palabra real (se encuentre en el word bank)
+- convertir palabras con tilde a palabras sin tilde (por ejemplo "ÁRBOL" lo debe leer como "ARBOL")
+"""
+
 import random
 import re
 from colorama import Fore, init
 init()
+
 #FUNCIONES
 
 def print_variables(a):
@@ -9,7 +17,7 @@ def print_variables(a):
 
 def verify_guess(word):
     while word.isalpha() == False:
-            word = input("La palabra no puede contener números. Ingrese una palabra válida: ")
+        word = input("La palabra no puede contener números. Ingrese una palabra válida: ")
     while word == "":
         word = input("No se ingresó ninguna palabra. Ingrese una palabra: ")
     while len(word) != 5:
@@ -52,10 +60,9 @@ for intentos in range (1, INTENTOS_MAXIMO+1):
     
     for i in range(len(resultado)):
         print(f"{resultado[i]}",end=" ")
-        
+
     print()
     
-
     if palabra==palabra_secreta:
         print(f"\nLa palabra secreta era {palabra}. Felicitaciones!")
         exit()
