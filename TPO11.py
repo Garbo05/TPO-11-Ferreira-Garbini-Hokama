@@ -71,16 +71,16 @@ def play_game(LIST,ATTEMPTS):
         # Verifica cada letra de la palabra del usuario comparándola con la palabra secreta
         for i in range(len(palabra)):
             if palabra[i]==secret_word[i]:  # Letra en la posición correcta (verde)
-                letra_verde = Fore.GREEN+palabra[i]+Fore.RESET
+                letra_verde = Fore.GREEN+palabra[i]
                 resultado.append(letra_verde)
 
-            elif (palabra[i] in secret_word) and palabra[i] != secret_word[i]:  # Letra en la palabra, pero en posición incorrecta (amarillo)
-                letra_amarilla = Fore.YELLOW+palabra[i]+Fore.RESET
+            elif palabra[i] in secret_word and palabra[i] != secret_word[i]:  # Letra en la palabra, pero en posición incorrecta (amarillo)
+                letra_amarilla = Fore.YELLOW+palabra[i]
                 resultado.append(letra_amarilla)
 
             else:  # Letra no está en la palabra (blanco)
-                letra_blanca = Fore.WHITE+palabra[i]+Fore.RESET
-                resultado.append(letra_blanca)
+                letra_roja = Fore.RED+palabra[i]
+                resultado.append(letra_roja)
     
         # Imprimir el resultado del intento con los colores q correspondan
         for i in range(len(resultado)):
