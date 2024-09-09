@@ -1,21 +1,7 @@
 import random
-import re
-
-# Importar colorama para colores en consola
-from colorama import Fore, init 
-init(autoreset=True) # Los colores vuelven a su estado original luego de cada mensaje.
-
-# Importar emoji para decorar el texto en consola
-import emoji
-
-#DICCIONARIO PARA ELIMINAR TILDES
-diccionario_tildes = {
-    'Á': 'A',
-    'É': 'E',
-    'Í': 'I',
-    'Ó': 'O',
-    'Ú': 'U'
-}
+import emoji  # Importar emoji para decorar el texto en consola
+from colorama import Fore, init  # Importar Fore de colorama para colores en consola
+init(autoreset=True)  # Los colores vuelven a su estado original luego de cada mensaje.
 
 #FUNCIONES
 
@@ -33,6 +19,15 @@ def validate_guess(word):
         word = input("Longitud incorrecta. Ingrese una palabra de 5 letras: ") 
     
     return word
+
+#DICCIONARIO PARA ELIMINAR TILDES
+diccionario_tildes = {
+    'Á': 'A',
+    'É': 'E',
+    'Í': 'I',
+    'Ó': 'O',
+    'Ú': 'U'
+}
 
 # Elimina los acentos de una palabra
 def remove_accents(word):
