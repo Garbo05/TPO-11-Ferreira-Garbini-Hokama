@@ -2,7 +2,7 @@
 FALTA AGREGAR:
 - lectura de un archivo .txt que funcione como word bank
  en lugar de leer de una lista
-- verificar que la palabra que ingrese el usuario sea una palabra real 
+- verificar que la palabra que ingrese el usuario sea una palabra real
   (se encuentre en el word bank)
 """
 
