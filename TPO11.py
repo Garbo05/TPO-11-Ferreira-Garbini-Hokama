@@ -76,6 +76,15 @@ def play_game(LIST, ATTEMPTS):
         palabra = validate_guess(palabra)
 
         # Convertimos la palabra en mayúsculas y removemos los acentos
+
+        # Break para finalizar la partida antes de terminar los intentos
+        if palabra == "-1":
+            break
+
+        # Validamos que la palabra ingresada cumpla con el estándar
+        palabra = validate_guess(palabra)
+
+        # Convertimos la palabra en mayúsculas y removemos los acentos
         palabra = palabra.upper()
         palabra = remove_accents(palabra)
 
