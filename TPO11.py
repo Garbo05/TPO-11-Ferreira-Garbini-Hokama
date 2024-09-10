@@ -54,12 +54,12 @@ def remove_accents(word):
 
 def play_game(LIST, ATTEMPTS):
     # Explicación del modo de juego
-    print(f"El juego consiste en adivinar una palabra de 5 letras, para ello",
-        " cuentas con 6 intentos. Después de cada intento se te informará",
-        " qué letras se encuentran en la palabra y si se encuentran en",
-        " la posición correcta en color VERDE, y cuáles forman parte de",
-        " la palabra, pero están en \nla posición incorrecta en color",
-        " AMARILLO\nIngrese -1 para finalizar la partida.")
+    print(f"\nEl juego consiste en adivinar una palabra de 5 letras, para ello",
+        "cuentas con 6 intentos. Después de cada intento se te informará",
+        "qué letras se encuentran en la palabra y si se encuentran en",
+        "la posición correcta en color VERDE, y cuáles forman parte de",
+        "la palabra, pero están en la posición incorrecta en color",
+        "AMARILLO.\nIngrese -1 para finalizar la partida.")
 
     # Selecciona aleatoriamente una palabra secreta de la lista
     secret_word = random.choice(LIST)
@@ -92,8 +92,7 @@ def play_game(LIST, ATTEMPTS):
         resultado = [''] * 5
 
         # Diccionario para evitar problemas de repetición de letras
-        diccionario_secreto = {letra: secret_word.count(letra)
-                                for letra in set(secret_word)}
+        diccionario_secreto = {letra: secret_word.count(letra) for letra in set(secret_word)}
 
         # Marca las letras correctas (en posición correcta - verde)
         for i in range(len(palabra)):
@@ -140,8 +139,7 @@ LISTA_PALABRAS_POSIBLES = ["CARTA", "MANGO", "PERRO", "LUGAR", "SALTA",
 INTENTOS_MAXIMO = 6
 
 # Mensaje de bienvenida
-print(f"\n{emoji.emojize(':robot:')} BIENVENIDO A STRINGLE!"
-        f"{emoji.emojize(':thinking_face:')}")
+print(f"\n{emoji.emojize(':robot:')} BIENVENIDO A STRINGLE!{emoji.emojize(':thinking_face:')}")
 bandera = True
 
 while bandera:
