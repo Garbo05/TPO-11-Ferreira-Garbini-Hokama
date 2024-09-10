@@ -1,9 +1,10 @@
+# Importar random para randomizar la elección de la palabra secreta
 import random
 # Importar emoji para decorar el texto en consola
 import emoji
 # Importar Fore de colorama para colores en consola
 from colorama import Fore, init
-# Los colores vuelven a su estado original luego de cada mensaje.
+# Los colores vuelven a su estado original luego de cada mensaje
 init(autoreset=True)
 
 # FUNCIONES
