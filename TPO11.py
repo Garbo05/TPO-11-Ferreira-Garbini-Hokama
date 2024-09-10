@@ -18,11 +18,11 @@ def print_variables(a):
 
 
 def validate_guess(word):
-    while not word.isalpha():
-        word = input("La palabra no puede contener números. ",
-                    f"Ingrese una palabra válida: ")
     while word == "":
         word = input("No se ingresó ninguna palabra. Ingrese una palabra: ")
+    while not word.isalpha():
+        word = input("La palabra no puede contener números. "
+                     "Ingrese una palabra válida: ")
     while len(word) != 5:
         word = input("Longitud incorrecta. Ingrese una palabra de 5 letras: ")
     return word
@@ -56,12 +56,12 @@ def remove_accents(word):
 
 def play_game(LIST, ATTEMPTS):
     # Explicación del modo de juego
-    print(f"\nEl juego consiste en adivinar una palabra de 5 letras, para ello",
-        "cuentas con 6 intentos. Después de cada intento se te informará",
-        "qué letras se encuentran en la palabra y si se encuentran en",
-        "la posición correcta en color VERDE, y cuáles forman parte de",
-        "la palabra, pero están en la posición incorrecta en color",
-        "AMARILLO.\nIngrese -1 para finalizar la partida.")
+    print(f"\nEl juego consiste en adivinar una palabra de 5 letras, "
+          "para ello cuentas con 6 intentos. \nDespués de cada intento se te "
+          "informará qué letras se encuentran en la palabra y si se encuentran"
+          " en la posición correcta en color VERDE, y cuáles forman parte de "
+          "la palabra, pero están en la posición incorrecta en color "
+          "AMARILLO.\n\n(Ingrese -1 para finalizar la partida.)")
 
     # Selecciona aleatoriamente una palabra secreta de la lista
     secret_word = random.choice(LIST)
@@ -94,7 +94,8 @@ def play_game(LIST, ATTEMPTS):
         resultado = [''] * 5
 
         # Diccionario para evitar problemas de repetición de letras
-        diccionario_secreto = {letra: secret_word.count(letra) for letra in set(secret_word)}
+        diccionario_secreto = {letra: secret_word.count(letra)
+                               for letra in set(secret_word)}
 
         # Marca las letras correctas (en posición correcta - verde)
         for i in range(len(palabra)):
@@ -120,7 +121,7 @@ def play_game(LIST, ATTEMPTS):
         # Si la palabra adivinada es correcta, se termina el juego
         if palabra == secret_word:
             print(f"\nLa palabra secreta era {palabra}. ¡Felicitaciones! "
-                f"{emoji.emojize(':partying_face:')}")
+                  f"{emoji.emojize(':partying_face:')}")
             break
 
     # Si no se adivina la palabra después del número máximo de intentos
@@ -128,20 +129,22 @@ def play_game(LIST, ATTEMPTS):
         print("Partida finalizada.")
     elif palabra != secret_word:
         print(f"\nMala suerte, se agotaron tus {ATTEMPTS} intentos "
-            f"{emoji.emojize(':clown_face:')}\nLa palabra secreta era "
-            f"{secret_word}.")
+              f"{emoji.emojize(':clown_face:')}\nLa palabra secreta era "
+              f"{secret_word}.")
 
 # PROGRAMA PRINCIPAL
 # Lista de palabras posibles (temporal; se reemplazará por archivo .txt)
 LISTA_PALABRAS_POSIBLES = ["CARTA", "MANGO", "PERRO", "LUGAR", "SALTA",
-                        "LLAMA", "PLUMA", "LIMON", "BOTAS", "TIGRE",
-                        "RADIO", "BARCO", "LIBRO", "VERDE", "FLACO"]
+                           "LLAMA", "PLUMA", "LIMON", "BOTAS", "TIGRE",
+                           "RADIO", "BARCO", "LIBRO", "VERDE", "FLACO"]
 
 # Número máximo de intentos
 INTENTOS_MAXIMO = 6
 
 # Mensaje de bienvenida
-print(f"\n{emoji.emojize(':robot:')} BIENVENIDO A STRINGLE!{emoji.emojize(':thinking_face:')}")
+print(f"\n{emoji.emojize(':robot:')} "
+      f"BIENVENIDO A STRINGLE!{emoji.emojize(':thinking_face:')}")
+
 bandera = True
 
 while bandera:
