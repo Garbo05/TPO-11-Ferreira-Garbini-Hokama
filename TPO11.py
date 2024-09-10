@@ -50,6 +50,7 @@ def remove_accents(word):
             resultado += letra
     return resultado
 
+
 # ---- FUNCION MODO NORMAL ---- #
 
 
