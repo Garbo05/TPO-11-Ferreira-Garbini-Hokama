@@ -1,30 +1,43 @@
-# Importar random para randomizar la elección de la palabra secreta
+# Se importa "random" para elegir al azar. Se importa "emoji" para darle una
+# calidad mayor a la salida por consola. Por ultimo se importa colorama para
+# agregar colores en consola
 import random
-# Importar emoji para decorar el texto en consola
 import emoji
-# Importar Fore de colorama para colores en consola
 from colorama import Fore, init
-# Los colores vuelven a su estado original luego de cada mensaje
+# Se inicializa colorama con la función donde los colores vuelven a su
+# estado original luego de cada mensaje
 init(autoreset=True)
 
 # FUNCIONES
 
 
 # Imprime una variable
+
+
 def print_variables(a):
     print(a)
+
 
 # Verifica que la palabra ingresada sea válida (solo letras y de longitud 5)
 
 
 def validate_guess(word):
-    while word == "":
-        word = input("No se ingresó ninguna palabra. Ingrese una palabra: ")
-    while not word.isalpha():
-        word = input("La palabra no puede contener números. "
-                     "Ingrese una palabra válida: ")
-    while len(word) != 5:
-        word = input("Longitud incorrecta. Ingrese una palabra de 5 letras: ")
+    while (
+        word == "" or
+        (word != "-1" and not word.isalpha()) or
+        (word != "-1" and len(word) != 5)
+    ):
+        if word == "":
+            word = input("No se ingresó ninguna palabra. "
+                         "Ingrese una palabra: ")
+        elif word == "-1":
+            return word  # Retorna '-1' para finalizar
+        elif not word.isalpha():
+            word = input("La palabra no puede contener números. "
+                         "Ingrese una palabra válida: ")
+        elif len(word) != 5:
+            word = input("Longitud incorrecta. "
+                         "Ingrese una palabra de 5 letras: ")
     return word
 
 # DICCIONARIO PARA ELIMINAR TILDES
@@ -50,7 +63,6 @@ def remove_accents(word):
             resultado += letra
     return resultado
 
-
 # ---- FUNCION MODO NORMAL ---- #
 
 
@@ -70,21 +82,13 @@ def play_game(LIST, ATTEMPTS):
     for intentos in range(1, ATTEMPTS + 1):
         palabra = input(f"\nINTENTO N°{intentos}: ")
 
-        # Break para finalizar la partida antes de terminar los intentos
-        if palabra == "-1":
-            break
-
         # Validamos que la palabra ingresada cumpla con el estándar
         palabra = validate_guess(palabra)
 
-        # Convertimos la palabra en mayúsculas y removemos los acentos
-
         # Break para finalizar la partida antes de terminar los intentos
         if palabra == "-1":
+            print("Partida finalizada.")
             break
-
-        # Validamos que la palabra ingresada cumpla con el estándar
-        palabra = validate_guess(palabra)
 
         # Convertimos la palabra en mayúsculas y removemos los acentos
         palabra = palabra.upper()
@@ -107,7 +111,10 @@ def play_game(LIST, ATTEMPTS):
         # en posición incorrecta (amarillo)
         for i in range(len(palabra)):
             if resultado[i] == '':
-                if palabra[i] in secret_word and diccionario_secreto[palabra[i]] > 0:
+                if (
+                    palabra[i] in secret_word and
+                    diccionario_secreto[palabra[i]] > 0
+                ):
                     resultado[i] = Fore.YELLOW + palabra[i]
                     diccionario_secreto[palabra[i]] -= 1
                 else:  # Letra no está en la palabra (rojo)
@@ -125,9 +132,7 @@ def play_game(LIST, ATTEMPTS):
             break
 
     # Si no se adivina la palabra después del número máximo de intentos
-    if palabra == "-1":
-        print("Partida finalizada.")
-    elif palabra != secret_word:
+    if palabra != secret_word and palabra != "-1":
         print(f"\nMala suerte, se agotaron tus {ATTEMPTS} intentos "
               f"{emoji.emojize(':clown_face:')}\nLa palabra secreta era "
               f"{secret_word}.")
