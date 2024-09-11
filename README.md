@@ -30,7 +30,21 @@ El juego también permite finalizar la partida antes de agotar los intentos ingr
    cd stringle
 ## Changelog
 
-### [v1.2.0] - 2024-09-10
+### [v1.2.0] - 11-09-2024
+- **Archivos:** Se crea el archivo "Funciones.py" donde se agregan las funciones del código y se separan del código principal.
+
+### [v1.2.0] - 10-09-2024
+- **README:** Se crea el archivo README para proporcionar al usuario mayor información acerca del proyecto.
+- **Mejoras:** Mejoras con Pep8
+
+### [v1.2.0] - 09-09-2024
+- **Emojis:** Se importan emojis que se muestran en consola para mayor calidad visual.
+- **Cambios:** Cambios menores a la modularización y mas mejoras con Pep8.
+
+### [v1.2.0] - 03-09-2024
+- **Mejora:** Se utiliza Pep8 para cumplir con la pautas de estilo propuestos por la misma.
+- 
+### [v1.2.0] - 02-09-2024
 - **Nueva Funcionalidad:** Se agregó la opción de finalizar el juego al ingresar `-1`.
 - **Comentarios:** Se implementan comentarios para que el usuario comprenda el codigo fuente.
 - **Mejora:** Mejoras en la validación de la entrada del usuario.
@@ -42,3 +56,5 @@ El juego también permite finalizar la partida antes de agotar los intentos ingr
 
 ### [v1.0.0] - 26-08-2024
 - **Lanzamiento inicial:** Implementación básica del juego.
+
+- ***Gracias por jugar Stringle***
