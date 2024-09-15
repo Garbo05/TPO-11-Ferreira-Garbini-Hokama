@@ -30,7 +30,7 @@ def validate_guess(word):
         if word == "":
             word = input(
                 "No se ingresó ninguna palabra. "
-                " Ingrese una palabra: "
+                "Ingrese una palabra: "
                 )
         elif word == "-1":
             return word  # Retorna '-1' para finalizar
