@@ -18,7 +18,7 @@ INTENTOS_MAXIMO = 6
 # Mensaje de bienvenida
 print(
     f"\n{emoji.emojize(':robot:')} " f"BIENVENIDO A STRINGLE!"
-    "{emoji.emojize(':thinking_face:')}"
+    f"{emoji.emojize(':thinking_face:')}"
     )
 
 bandera = True
