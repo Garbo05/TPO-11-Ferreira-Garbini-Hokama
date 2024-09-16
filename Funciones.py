@@ -3,7 +3,7 @@
 # agregar colores en consola
 import random
 import emoji
-from colorama import Fore, init
+from colorama import Fore, Style, init
 # Se inicializa colorama con la función donde los colores vuelven a su
 # estado original luego de cada mensaje
 init(autoreset=True)
@@ -73,15 +73,24 @@ def remove_accents(word):
 
 
 def play_game(LIST, ATTEMPTS):
+    # Ejemplo de palabra
+    palabra_ejemplo = (
+    f"{Fore.YELLOW}B{Fore.RED}A{Fore.RED}R{Fore.RED}C{Fore.GREEN}O"
+    )
     # Explicación del modo de juego
     print(
         f"\nEl juego consiste en adivinar una palabra de 5 letras, "
         "para ello cuentas con 6 intentos. \nDespués de cada intento se te "
-        "informará qué letras se encuentran en la palabra y si se encuentran"
-        " en la posición correcta en color VERDE, y cuáles forman parte de "
-        "la palabra, pero están en la posición incorrecta en color "
-        "AMARILLO.\n\n(Ingrese -1 para finalizar la partida.)"
-        )
+        "informará qué letras se encuentran en la palabra.\nSi se encuentra alguna "
+        f"letra en la posición correcta se marcará en color {Fore.GREEN}VERDE{Style.RESET_ALL}."
+        "\nLas que formen parte de la palabra, pero están en la posición incorrecta, "
+        f"se mostrarán en color {Fore.YELLOW}AMARILLO{Style.RESET_ALL}."
+        f"\nLas que no estén dentro de la palabra se mostrarán en color {Fore.RED}ROJO{Style.RESET_ALL}."
+        "\n\nPor ejemplo, si la palabra oculta fuera 'LIBRO' y usted ingresará 'BARCO' "
+        "el resultado se vería así: "
+        f"{palabra_ejemplo}"
+        "\n\n(Ingrese -1 para finalizar la partida.)"
+    )
 
     # Selecciona aleatoriamente una palabra secreta de la lista
     secret_word = random.choice(LIST)

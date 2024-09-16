@@ -9,7 +9,7 @@ from Funciones import validate_guess, remove_accents, play_game
 LISTA_PALABRAS_POSIBLES = [
     "CARTA", "MANGO", "PERRO", "LUGAR", "SALTA",
     "LLAMA", "PLUMA", "LIMON", "BOTAS", "TIGRE",
-    "RADIO", "BARCO", "LIBRO", "VERDE", "FLACO"
+    "RADIO", "NACER", "FRASE", "VERDE", "FLACO"
     ]
 
 # Número máximo de intentos
@@ -18,7 +18,7 @@ INTENTOS_MAXIMO = 6
 # Mensaje de bienvenida
 print(
     f"\n{emoji.emojize(':robot:')} " f"BIENVENIDO A STRINGLE!"
-    "{emoji.emojize(':thinking_face:')}"
+    f"{emoji.emojize(':thinking_face:')}"
     )
 
 bandera = True
