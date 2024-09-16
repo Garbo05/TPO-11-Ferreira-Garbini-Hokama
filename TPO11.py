@@ -1,7 +1,7 @@
 # Se importa "emoji" para darle una calidad mayor a la salida por consola.
 # Se importa el archivo "Funciones.py" para importar las funciones
 import emoji
-from Funciones import validate_guess, remove_accents, play_game
+from Funciones import play_game
 
 
 # PROGRAMA PRINCIPAL

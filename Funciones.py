@@ -11,7 +11,7 @@ init(autoreset=True)
 # FUNCIONES
 
 
-# Imprime una variable
+# Imprime una variable (debugging)
 
 
 def print_variables(a):
