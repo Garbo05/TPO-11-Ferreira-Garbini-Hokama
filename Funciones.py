@@ -75,7 +75,7 @@ def remove_accents(word):
 def play_game(LIST, ATTEMPTS):
     # Ejemplo de palabra
     palabra_ejemplo = (
-    f"{Fore.YELLOW}B{Fore.RED}A{Fore.RED}R{Fore.RED}C{Fore.GREEN}O"
+    f"{Fore.YELLOW}B{Fore.RED}A{Fore.YELLOW}R{Fore.RED}C{Fore.GREEN}O"
     )
     # Explicación del modo de juego
     print(
