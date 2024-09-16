@@ -18,7 +18,8 @@ def print_variables(a):
     print(a)
 
 
-# Verifica que la palabra ingresada sea válida (solo letras y de longitud 5)
+# Verifica que la palabra ingresada sea válida
+# (solo letras y de longitud 5)
 
 
 def validate_guess(word):
@@ -75,21 +76,26 @@ def remove_accents(word):
 def play_game(LIST, ATTEMPTS):
     # Ejemplo de palabra
     palabra_ejemplo = (
-    f"{Fore.YELLOW}B{Fore.RED}A{Fore.YELLOW}R{Fore.RED}C{Fore.GREEN}O"
+        f"{Fore.YELLOW}B{Fore.RED}A{Fore.YELLOW}R{Fore.RED}"
+        f"C{Fore.GREEN}O{Style.RESET_ALL}"
     )
     # Explicación del modo de juego
     print(
         f"\nEl juego consiste en adivinar una palabra de 5 letras, "
-        "para ello cuentas con 6 intentos. \nDespués de cada intento se te "
-        "informará qué letras se encuentran en la palabra.\nSi se encuentra alguna "
-        f"letra en la posición correcta se marcará en color {Fore.GREEN}VERDE{Style.RESET_ALL}."
-        "\nLas que formen parte de la palabra, pero están en la posición incorrecta, "
-        f"se mostrarán en color {Fore.YELLOW}AMARILLO{Style.RESET_ALL}."
-        f"\nLas que no estén dentro de la palabra se mostrarán en color {Fore.RED}ROJO{Style.RESET_ALL}."
-        "\n\nPor ejemplo, si la palabra oculta fuera 'LIBRO' y usted ingresará 'BARCO' "
-        "el resultado se vería así: "
+        "para ello cuentas con 6 intentos. \nDespués de cada "
+        f"intento se te informará qué letras se encuentran en "
+        f"la palabra.\nSi se encuentra alguna letra en la posición "
+        f"correcta se marcará en color {Fore.GREEN}VERDE{Style.RESET_ALL}."
+        f"\nLas que formen parte de la palabra, pero están en la "
+        f"posición incorrecta, se mostrarán en color "
+        f"{Fore.YELLOW}AMARILLO{Style.RESET_ALL}."
+        f"\nLas que no estén dentro de la palabra se mostrarán en "
+        f"color {Fore.RED}ROJO{Style.RESET_ALL}."
+        f"\n\nPor ejemplo, si la palabra oculta fuera 'LIBRO' "
+        f"y usted ingresará 'BARCO' "
+        f"el resultado se vería así: "
         f"{palabra_ejemplo}"
-        "\n\n(Ingrese -1 para finalizar la partida.)"
+        f"\n\n {Fore.RED}(Ingrese -1 para finalizar la partida.)"
     )
 
     # Selecciona aleatoriamente una palabra secreta de la lista
