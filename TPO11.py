@@ -1,19 +1,19 @@
 # Se importa "emoji" para darle una calidad mayor a la salida por consola.
 # Se importa el archivo "Funciones.py" para importar las funciones
 import emoji
-from Funciones import validate_guess, remove_accents, play_game
+from Funciones import validate_guess, remove_accents, play_game, \
+    cargar_palabras
 
 
 # PROGRAMA PRINCIPAL
-# Lista de palabras posibles (temporal; se reemplazará por archivo .txt)
-LISTA_PALABRAS_POSIBLES = [
-    "CARTA", "MANGO", "PERRO", "LUGAR", "SALTA",
-    "LLAMA", "PLUMA", "LIMON", "BOTAS", "TIGRE",
-    "RADIO", "NACER", "FRASE", "VERDE", "FLACO"
-    ]
+# Cargar la lista de palabras desde el archivo
+LISTA_PALABRAS_POSIBLES = cargar_palabras('palabras.txt')
 
 # Número máximo de intentos
 INTENTOS_MAXIMO = 6
+
+# Iniciar el juego
+play_game(LISTA_PALABRAS_POSIBLES, INTENTOS_MAXIMO)
 
 # Mensaje de bienvenida
 print(
