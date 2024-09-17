@@ -54,8 +54,6 @@ def validate_guess(word):
                 "No se ingresó ninguna palabra. "
                 "Ingrese una palabra: "
             )
-        elif word == "-1":
-            return word  # Retorna '-1' para finalizar
         elif not word.isalpha():
             word = input(
                 "La palabra no puede contener números. "
@@ -72,8 +70,8 @@ def validate_guess(word):
 def play_game(LIST, ATTEMPTS):
     # Ejemplo de palabra
     palabra_ejemplo = (
-        f"{Fore.YELLOW}B{Fore.RED}A{Fore.YELLOW}R{Fore.RED}"
-        f"C{Fore.GREEN}O{Style.RESET_ALL}"
+        f"{Fore.YELLOW}B {Fore.RED}A {Fore.YELLOW}R {Fore.RED}"
+        f"C {Fore.GREEN}O{Style.RESET_ALL}"
     )
     # Explicación del modo de juego
     print(
@@ -91,7 +89,7 @@ def play_game(LIST, ATTEMPTS):
         f"y usted ingresará 'BARCO' "
         f"el resultado se vería así: "
         f"{palabra_ejemplo}"
-        f"\n\n {Fore.RED}(Ingrese -1 para finalizar la partida.)"
+        f"\n\n{Fore.RED}(Ingrese -1 para finalizar la partida.)"
     )
     
     # Selecciona aleatoriamente una palabra secreta de la lista
