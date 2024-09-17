@@ -33,8 +33,6 @@ def validate_guess(word):
                 "No se ingresó ninguna palabra. "
                 "Ingrese una palabra: "
                 )
-        elif word == "-1":
-            return word  # Retorna '-1' para finalizar
         elif not word.isalpha():
             word = input(
                 "La palabra no puede contener números. "
