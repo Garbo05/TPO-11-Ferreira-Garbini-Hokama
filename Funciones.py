@@ -38,10 +38,12 @@ def cargar_palabras(archivo):
     with open(archivo, 'r', encoding='utf-8') as f:
         # Leer todas las líneas y eliminar los saltos de línea
         palabras = [linea.strip() for linea in f.readlines()]
+
     return palabras
 
 
 def validate_palabra(palabras, word):
+    word = remove_accents(word)
     if word not in palabras:
         return False
     return True
@@ -103,6 +105,7 @@ def play_game(LIST, ATTEMPTS):
 
     # Selecciona aleatoriamente una palabra secreta de la lista
     secret_word = random.choice(LIST)
+    secret_word = remove_accents(secret_word)
     intentos = 0  # Contador de intentos
 
     # Bucle principal para realizar intentos
