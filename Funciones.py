@@ -19,6 +19,8 @@ diccionario_tildes = {
 }
 
 # Elimina los acentos de una palabra
+
+
 def remove_accents(word):
     resultado = ""
     for letra in word:
@@ -28,21 +30,26 @@ def remove_accents(word):
             resultado += letra
     return resultado
 
+
 # Leer palabras desde un archivo .txt
+
+
 def cargar_palabras(archivo):
     with open(archivo, 'r', encoding='utf-8') as f:
         # Leer todas las líneas y eliminar los saltos de línea
         palabras = [linea.strip() for linea in f.readlines()]
     return palabras
 
+
 def validate_palabra(palabras, word):
-    if word not in palabras:  # Cambiado '!=' por 'not in'
-        print(f"La palabra '{word}' no está en la lista.")
-        return False  # Retorna False si la palabra no está en la lista
-    return True  # Retorna True si la palabra está en la lista
+    if word not in palabras:
+        return False
+    return True
 
 # Verifica que la palabra ingresada sea válida
 # (solo letras y de longitud 5)
+
+
 def validate_guess(word):
     while (
         word == "" or
@@ -67,6 +74,8 @@ def validate_guess(word):
     return word
 
 # ---- FUNCION MODO NORMAL ---- #
+
+
 def play_game(LIST, ATTEMPTS):
     # Ejemplo de palabra
     palabra_ejemplo = (
@@ -91,46 +100,52 @@ def play_game(LIST, ATTEMPTS):
         f"{palabra_ejemplo}"
         f"\n\n{Fore.RED}(Ingrese -1 para finalizar la partida.)"
     )
-    
+
     # Selecciona aleatoriamente una palabra secreta de la lista
     secret_word = random.choice(LIST)
-    
+    intentos = 0  # Contador de intentos
+
     # Bucle principal para realizar intentos
-    for intentos in range(1, ATTEMPTS + 1):
-        palabra = input(f"\nINTENTO N°{intentos}: ")
-        
+    while intentos < ATTEMPTS:
+        palabra = input(f"\nINTENTO N°{intentos + 1}: ")
         # Validamos que la palabra ingresada cumpla con el estándar
         palabra = validate_guess(palabra)
-        
         # Break para finalizar la partida antes de terminar los intentos
         if palabra == "-1":
             print("Partida finalizada.")
-            break
-        
+            return  # Termina la función
+
         # Convertimos la palabra en mayúsculas y removemos los acentos
         palabra = palabra.upper()
         palabra = remove_accents(palabra)
-        
+
         # Validar que la palabra esté en la lista de palabras posibles
         if not validate_palabra(LIST, palabra):
-            continue  # Si la palabra no está en la lista, vuelve a pedir un intento
-        
+            print(
+                f"La palabra '{palabra}' no está en la lista. "
+                "Intenta de nuevo."
+                )
+            continue
+
+        # Incrementar el contador de intentos solo si la palabra es válida
+        intentos += 1
+
         # Lista para almacenar el resultado coloreado de cada intento
         resultado = [''] * 5
-        
         # Diccionario para evitar problemas de repetición de letras
         diccionario_secreto = {
             letra: secret_word.count(letra)
             for letra in set(secret_word)
         }
-        
+
         # Marca las letras correctas (en posición correcta - verde)
         for i in range(len(palabra)):
             if palabra[i] == secret_word[i]:  # Letra en la posición correcta
                 resultado[i] = Fore.GREEN + palabra[i]
                 diccionario_secreto[palabra[i]] -= 1  # Restar del diccionario
-        
-        # Marca las letras presentes en la palabra pero en posición incorrecta (amarillo)
+
+        # Marca las letras presentes en la palabra pero en posición
+        # incorrecta (amarillo)
         for i in range(len(palabra)):
             if resultado[i] == '':
                 if (
@@ -141,24 +156,23 @@ def play_game(LIST, ATTEMPTS):
                     diccionario_secreto[palabra[i]] -= 1
                 else:  # Letra no está en la palabra (rojo)
                     resultado[i] = Fore.RED + palabra[i]
-        
+
         # Imprimir el resultado del intento con los colores correspondientes
         for res in resultado:
             print(f"{res}", end=" ")
         print()
-        
+
         # Si la palabra adivinada es correcta, se termina el juego
         if palabra == secret_word:
             print(
                 f"\nLa palabra secreta era {palabra}. ¡Felicitaciones! "
                 f"{emoji.emojize(':partying_face:')}"
             )
-            break
-    
+            return  # Termina la función
+
     # Si no se adivina la palabra después del número máximo de intentos
-    if palabra != secret_word and palabra != "-1":
-        print(
-            f"\nMala suerte, se agotaron tus {ATTEMPTS} intentos "
-            f"{emoji.emojize(':clown_face:')}\nLa palabra secreta era "
-            f"{secret_word}."
-        )
+    print(
+        f"\nMala suerte, se agotaron tus {ATTEMPTS} intentos "
+        f"{emoji.emojize(':clown_face:')}\nLa palabra secreta era "
+        f"{secret_word}."
+    )
