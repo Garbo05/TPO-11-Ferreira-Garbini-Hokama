@@ -1,181 +1,126 @@
-# Se importa "random" para elegir al azar. Se importa "emoji" para darle una
-# calidad mayor a la salida por consola. Por ultimo se importa colorama para
-# agregar colores en consola
-import random
 import emoji
+import tkinter as tk
+import random
 from colorama import Fore, Style, init
 
-# Se inicializa colorama con la función donde los colores vuelven a su
-# estado original luego de cada mensaje
+# Inicializa colorama
 init(autoreset=True)
 
-# DICCIONARIO PARA ELIMINAR TILDES
-diccionario_tildes = {
-    'Á': 'A',
-    'É': 'E',
-    'Í': 'I',
-    'Ó': 'O',
-    'Ú': 'U'
-}
-
-# Elimina los acentos de una palabra
-
-
-def remove_accents(word):
-    resultado = ""
-    for letra in word:
-        if letra in diccionario_tildes:
-            resultado += diccionario_tildes[letra]
-        else:
-            resultado += letra
-    return resultado
-
-
-# Leer palabras desde un archivo .txt
-
-
+# Cargar palabras desde un archivo .txt
 def cargar_palabras(archivo):
     with open(archivo, 'r', encoding='utf-8') as f:
-        # Leer todas las líneas y eliminar los saltos de línea
         palabras = [linea.strip() for linea in f.readlines()]
-
     return palabras
 
-
-def validate_palabra(palabras, word):
-    word = remove_accents(word)
-    if word not in palabras:
-        return False
-    return True
+# Elimina los acentos de una palabra
+def remove_accents(word):
+    diccionario_tildes = {
+        'Á': 'A',
+        'É': 'E',
+        'Í': 'I',
+        'Ó': 'O',
+        'Ú': 'U'
+    }
+    resultado = ""
+    for letra in word:
+        resultado += diccionario_tildes.get(letra, letra)
+    return resultado
 
 # Verifica que la palabra ingresada sea válida
-# (solo letras y de longitud 5)
-
-
 def validate_guess(word):
-    while (
-        word == "" or
-        (word != "-1" and not word.isalpha()) or
-        (word != "-1" and len(word) != 5)
-    ):
-        if word == "":
-            word = input(
-                "No se ingresó ninguna palabra. "
-                "Ingrese una palabra: "
-            )
-        elif not word.isalpha():
-            word = input(
-                "La palabra no puede contener números. "
-                "Ingrese una palabra válida: "
-            )
-        elif len(word) != 5:
-            word = input(
-                "Longitud incorrecta. "
-                "Ingrese una palabra de 5 letras: "
-            )
-    return word
+    return len(word) == 5 and word.isalpha()
 
-# ---- FUNCION MODO NORMAL ---- #
+# Verifica si la palabra está en la lista de palabras posibles
+def validate_palabra(palabras, word):
+    word = remove_accents(word)
+    return word in palabras
 
-
-def play_game(LIST, ATTEMPTS):
-    # Ejemplo de palabra
-    palabra_ejemplo = (
-        f"{Fore.YELLOW}B {Fore.RED}A {Fore.YELLOW}R {Fore.RED}"
-        f"C {Fore.GREEN}O{Style.RESET_ALL}"
-    )
-    # Explicación del modo de juego
-    print(
-        f"\nEl juego consiste en adivinar una palabra de 5 letras, "
-        "para ello cuentas con 6 intentos. \nDespués de cada "
-        f"intento se te informará qué letras se encuentran en "
-        f"la palabra.\nSi se encuentra alguna letra en la posición "
-        f"correcta se marcará en color {Fore.GREEN}VERDE{Style.RESET_ALL}."
-        f"\nLas que formen parte de la palabra, pero están en la "
-        f"posición incorrecta, se mostrarán en color "
-        f"{Fore.YELLOW}AMARILLO{Style.RESET_ALL}."
-        f"\nLas que no estén dentro de la palabra se mostrarán en "
-        f"color {Fore.RED}ROJO{Style.RESET_ALL}."
-        f"\n\nPor ejemplo, si la palabra oculta fuera 'LIBRO' "
-        f"y usted ingresará 'BARCO' "
-        f"el resultado se vería así: "
-        f"{palabra_ejemplo}"
-        f"\n\n{Fore.RED}(Ingrese -1 para finalizar la partida.)"
-    )
-
-    # Selecciona aleatoriamente una palabra secreta de la lista
-    secret_word = random.choice(LIST)
+# Jugar el juego
+def play_game():
+    global intentos, secret_word, cuadros_letras
+    secret_word = random.choice(LISTA_PALABRAS_POSIBLES).upper()
     secret_word = remove_accents(secret_word)
-    intentos = 0  # Contador de intentos
+    intentos = 0
+    for i in range(6):
+        for j in range(5):
+            cuadros_letras[i][j].delete(0, tk.END)  # Limpia las entradas
 
-    # Bucle principal para realizar intentos
-    while intentos < ATTEMPTS:
-        palabra = input(f"\nINTENTO N°{intentos + 1}: ")
-        # Validamos que la palabra ingresada cumpla con el estándar
-        palabra = validate_guess(palabra)
-        # Break para finalizar la partida antes de terminar los intentos
-        if palabra == "-1":
-            print("Partida finalizada.")
-            return  # Termina la función
-
-        # Convertimos la palabra en mayúsculas y removemos los acentos
-        palabra = palabra.upper()
+# Manejar el intento del usuario
+def hacer_intento(event=None):
+    global intentos
+    if intentos < 6:
+        palabra = "".join(cuadros_letras[intentos][i].get().upper() for i in range(5))
         palabra = remove_accents(palabra)
+        
+        # Mensajes de depuración
+        print("Palabra ingresada:", palabra)
 
-        # Validar que la palabra esté en la lista de palabras posibles
-        if not validate_palabra(LIST, palabra):
-            print(
-                f"La palabra '{palabra}' no está en la lista. "
-                "Intenta de nuevo."
-                )
-            continue
-
-        # Incrementar el contador de intentos solo si la palabra es válida
-        intentos += 1
-
-        # Lista para almacenar el resultado coloreado de cada intento
+        # Validar la palabra ingresada
+        if not validate_guess(palabra) or not validate_palabra(LISTA_PALABRAS_POSIBLES, palabra):
+            print("Por favor ingrese una palabra válida de 5 letras que esté en la lista.")
+            # Resetear las letras ingresadas
+            for i in range(5):
+                cuadros_letras[intentos][i].delete(0, tk.END)  # Limpia las entradas
+            return
+        
         resultado = [''] * 5
-        # Diccionario para evitar problemas de repetición de letras
-        diccionario_secreto = {
-            letra: secret_word.count(letra)
-            for letra in set(secret_word)
-        }
-
-        # Marca las letras correctas (en posición correcta - verde)
-        for i in range(len(palabra)):
-            if palabra[i] == secret_word[i]:  # Letra en la posición correcta
-                resultado[i] = Fore.GREEN + palabra[i]
-                diccionario_secreto[palabra[i]] -= 1  # Restar del diccionario
-
-        # Marca las letras presentes en la palabra pero en posición
-        # incorrecta (amarillo)
-        for i in range(len(palabra)):
+        diccionario_secreto = {letra: secret_word.count(letra) for letra in set(secret_word)}
+        
+        # Comprobar letras correctas (verde)
+        for i in range(5):
+            if palabra[i] == secret_word[i]:
+                resultado[i] = 'green'
+                diccionario_secreto[palabra[i]] -= 1
+        
+        # Comprobar letras incorrectas (amarillo y rojo)
+        for i in range(5):
             if resultado[i] == '':
-                if (
-                    palabra[i] in secret_word and
-                    diccionario_secreto[palabra[i]] > 0
-                ):
-                    resultado[i] = Fore.YELLOW + palabra[i]
+                if palabra[i] in secret_word and diccionario_secreto[palabra[i]] > 0:
+                    resultado[i] = 'yellow'
                     diccionario_secreto[palabra[i]] -= 1
-                else:  # Letra no está en la palabra (rojo)
-                    resultado[i] = Fore.RED + palabra[i]
-
-        # Imprimir el resultado del intento con los colores correspondientes
-        for res in resultado:
-            print(f"{res}", end=" ")
-        print()
-
-        # Si la palabra adivinada es correcta, se termina el juego
+                else:
+                    resultado[i] = 'red'
+        
+        # Actualizar la interfaz
+        for i in range(5):
+            cuadros_letras[intentos][i].delete(0, tk.END)
+            cuadros_letras[intentos][i].insert(0, palabra[i])
+            cuadros_letras[intentos][i].config(bg=resultado[i])
+        
+        intentos += 1
+        
         if palabra == secret_word:
-            print(
-                f"\nLa palabra secreta era {palabra}. ¡Felicitaciones! "
-                f"{emoji.emojize(':partying_face:')}"
-            )
-            return  # Termina la función
+            print(f"¡Felicidades! La palabra secreta era {secret_word}.")
+            return
+        elif intentos == 6:
+            print(f"Se acabaron los intentos. La palabra secreta era {secret_word}.")
 
-    # Si no se adivina la palabra después del número máximo de intentos
-    print(
-        f"\nMala suerte, se agotaron tus {ATTEMPTS} intentos "
-        f"{emoji.emojize(':clown_face:')}\nLa palabra secreta era "
-        f"{secret_word}."
-    )
+def on_key_press(event):
+    if event.char.isalpha() and len(event.widget.get()) == 0:  # Solo permite una letra si el cuadro está vacío
+        event.widget.insert(tk.END, event.char)
+        next_widget = event.widget.tk_focusNext()  # Obtiene el siguiente widget
+        if next_widget:
+            next_widget.focus()  # Cambia el foco al siguiente cuadro
+        return "break"  # Evita que el evento se propague y cause duplicación
+    elif event.keysym == 'space':  # Confirmar intento con espacio
+        hacer_intento()
+
+# Configuración de la ventana
+ventana = tk.Tk()
+ventana.config(width=300, height=200)
+ventana.title("Stringle")
+cuadros_letras = []
+for intento in range(6):  # 6 filas para intentos
+    fila_cuadros = []
+    for letra in range(5):  # 5 columnas para letras
+        cuadro = tk.Entry(ventana, width=2, font=("Arial", 24))
+        cuadro.grid(row=intento, column=letra, padx=5, pady=5)
+        cuadro.bind("<Key>", on_key_press)  # Bind para manejar la entrada de teclado
+        fila_cuadros.append(cuadro)
+    cuadros_letras.append(fila_cuadros)
+
+# Cargar palabras y comenzar el juego
+LISTA_PALABRAS_POSIBLES = cargar_palabras('palabras.txt')
+intentos = 0
+play_game()
+ventana.mainloop()

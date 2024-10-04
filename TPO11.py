@@ -1,8 +1,10 @@
 # Se importa "emoji" para darle una calidad mayor a la salida por consola.
 # Se importa el archivo "Funciones.py" para importar las funciones
 import emoji
+import tkinter as tk
+import tkinter.ttk as ttk
 from Funciones import validate_guess, remove_accents, play_game, \
-    cargar_palabras
+    cargar_palabras, hacer_intento
 
 # PROGRAMA PRINCIPAL
 # Cargar la lista de palabras desde el archivo
@@ -20,7 +22,7 @@ bandera = True
 while bandera:
     # Iniciar el juego y obtener el resultado
     resultado = play_game(LISTA_PALABRAS_POSIBLES, INTENTOS_MAXIMO)
-
+    
     # Preguntar si el usuario quiere volver a jugar
     restart = input("\n¿Le gustaría volver a jugar? (Y/N): ")
     restart = restart.upper()
