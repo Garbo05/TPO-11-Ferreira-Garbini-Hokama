@@ -128,6 +128,10 @@ def on_key_press(event, letra, intento):
     elif event.keysym == 'Return':  # Confirm word attempt with Enter key
         hacer_intento()
 
+    # Block any non-alphabetic input
+    if not event.char.isalpha() and event.keysym not in ("BackSpace", "Return"):
+        return "break"  # Prevent non-alphabetic input
+
 
 def on_key_press_new(event, letra, intento):
     # Handle letter input
@@ -148,6 +152,10 @@ def on_key_press_new(event, letra, intento):
     # Handle Enter key
     elif event.keysym == 'Return':  # Confirm word attempt with Enter key
         hacer_intento()
+
+    # Block any non-alphabetic input
+    if not event.char.isalpha() and event.keysym not in ("BackSpace", "Return"):
+        return "break"  # Prevent non-alphabetic input
 
 
 # Configuración de la ventana
