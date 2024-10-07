@@ -60,6 +60,9 @@ def hacer_intento(event=None):
             # Resetear las letras ingresadas
             for i in range(5):
                 cuadros_letras[intentos][i].delete(0, tk.END)  # Limpia las entradas
+            
+            # Move focus back to the first input box of the current attempt
+            cuadros_letras[intentos][0].focus()
             return
         
         resultado = [''] * 5
