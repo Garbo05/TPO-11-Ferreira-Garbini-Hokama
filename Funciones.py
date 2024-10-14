@@ -1,10 +1,6 @@
 import tkinter as tk
 import random
 from tkinter import messagebox
-from colorama import init
-
-# Inicializa colorama (para la consola, aunque aquí no es relevante en GUI)
-init(autoreset=True)
 
 # Cargar palabras desde un archivo .txt
 def cargar_palabras(archivo):
@@ -31,42 +27,43 @@ def validate_palabra(palabras, word):
 # Jugar el juego
 def play_game():
     global intentos, secret_word, cuadros_letras, teclas_botones, intento_bloqueado
-    secret_word = random.choice(LISTA_PALABRAS_POSIBLES).upper()
-    secret_word = remove_accents(secret_word)
-    intentos = 0
-    intento_bloqueado = False
+    secret_word = random.choice(LISTA_PALABRAS_POSIBLES).upper()  # Selecciona una palabra secreta al azar
+    secret_word = remove_accents(secret_word)  # Elimina acentos de la palabra secreta
+    intentos = 0  # Inicializa el número de intentos
+    intento_bloqueado = False  # Permite realizar intentos
+    # Limpia los cuadros de letras
     for i in range(6):
         for j in range(5):
             cuadros_letras[i][j].config(state="normal")
             cuadros_letras[i][j].delete(0, tk.END)  # Limpia las entradas
-            cuadros_letras[i][j].config(state="normal", bg="black", fg="white", highlightbackground="gray", highlightthickness=2)  # Reset background color
-    # Reiniciar colores de las teclas
+            cuadros_letras[i][j].config(state="normal", bg="black", fg="white", highlightbackground="gray", highlightthickness=2)  # Restablece el color de fondo
+    # Reinicia los colores de las teclas
     for letra, boton in teclas_botones.items():
         boton.config(bg="gray", fg="white")
 
+# Manejar el intento del usuario
 def hacer_intento():
     global intentos, intento_bloqueado
     if intento_bloqueado:
-        return
-    if intentos < 6:
+        return  # Si el intento está bloqueado, no hace nada
+    if intentos < 6:  # Solo permite hasta 6 intentos
         palabra = "".join(cuadros_letras[intentos][i].get().upper() for i in range(5))
-        palabra = remove_accents(palabra)
-
+        palabra = remove_accents(palabra)  # Elimina acentos de la palabra ingresada
         # Validar la palabra ingresada
         if not validate_guess(palabra) or not validate_palabra(LISTA_PALABRAS_POSIBLES, palabra):
             for i in range(5):
                 cuadros_letras[intentos][i].delete(0, tk.END)  # Limpia las entradas
-            cuadros_letras[intentos][0].focus()
+            cuadros_letras[intentos][0].focus()  # Enfoca el primer cuadro
             return
-
+        
         resultado = [''] * 5
-        diccionario_secreto = {letra: secret_word.count(letra) for letra in set(secret_word)}
-
+        diccionario_secreto = {letra: secret_word.count(letra) for letra in set(secret_word)}  # Cuenta las letras en la palabra secreta
+        
         # Comprobar letras correctas (verde)
         for i in range(5):
             if palabra[i] == secret_word[i]:
                 resultado[i] = 'green'
-                diccionario_secreto[palabra[i]] -= 1
+                diccionario_secreto[palabra[i]] -= 1  # Reduce el conteo de letras
 
         # Comprobar letras incorrectas (amarillo y gris)
         for i in range(5):
@@ -79,47 +76,50 @@ def hacer_intento():
 
         # Actualizar la interfaz con los colores
         for i in range(5):
-            cuadros_letras[intentos][i].config(state="normal")  # Ensure state is normal to change color
+            cuadros_letras[intentos][i].config(state="normal")  # Asegúrate de que el estado sea normal para cambiar color
             cuadros_letras[intentos][i].delete(0, tk.END)
             cuadros_letras[intentos][i].insert(0, palabra[i])
-            cuadros_letras[intentos][i].config(bg=resultado[i])  # Set the background color
+            cuadros_letras[intentos][i].config(bg=resultado[i])  # Establece el color de fondo
+            # Evita más interacción (hace que no se pueda editar pero mantiene el color)
+            cuadros_letras[intentos][i].bind("<Key>", lambda e: "break")  # Bloquea la entrada de teclas
+            cuadros_letras[intentos][i].bind("<Button-1>", lambda e: "break")  # Bloquea clics del ratón
+            cuadros_letras[intentos][i].config(takefocus=0)  # Previene el enfoque (no se puede tabular o hacer clic)
 
-            # Prevent further interaction (make uneditable but leave color intact)
-            cuadros_letras[intentos][i].bind("<Key>", lambda e: "break")  # Block key input
-            cuadros_letras[intentos][i].bind("<Button-1>", lambda e: "break")  # Block mouse clicks
-            cuadros_letras[intentos][i].config(takefocus=0)  # Prevent focus (can't tab or click into)
+        intentos += 1  # Incrementa el número de intentos
+        intento_bloqueado = False  # Permite nuevos intentos
 
-        intentos += 1
-        intento_bloqueado = False
+        # Verifica si ganó o si se acabaron los intentos
         if palabra == secret_word:
             messagebox.showinfo("¡Felicidades!", f"La palabra secreta era {secret_word}.")
             return
         elif intentos == 6:
             messagebox.showinfo("Fin del juego", f"Se acabaron los intentos. La palabra secreta era {secret_word}.")
             return
-        cuadros_letras[intentos][0].focus()
+        
+        cuadros_letras[intentos][0].focus()  # Enfoca el primer cuadro del siguiente intento
 
 # Manejar la entrada de teclado en el grid
 def on_key_press(event, letra, intento):
     if event.char.isalpha() and len(event.widget.get()) == 0:  # Solo permite una letra
         event.widget.insert(tk.END, event.char.upper())
-        next_widget = event.widget.tk_focusNext()
-        if next_widget and letra != 4:
-            next_widget.focus()  # Mover el foco al siguiente cuadro
+        next_widget = event.widget.tk_focusNext()  # Obtiene el siguiente widget
+        if next_widget and letra != 4:  # Si no es el último cuadro
+            next_widget.focus()  # Mueve el foco al siguiente cuadro
         return "break"
-    elif event.keysym == "BackSpace":
-        if len(event.widget.get()) == 0:
+    elif event.keysym == "BackSpace":  # Maneja la tecla de retroceso
+        if len(event.widget.get()) == 0:  # Si el cuadro está vacío
             previous_widget = event.widget.tk_focusPrev()
             if previous_widget:
-                previous_widget.focus()
-                previous_widget.delete(0, tk.END)
+                previous_widget.focus()  # Enfoca el cuadro anterior
+                previous_widget.delete(0, tk.END)  # Limpia el cuadro anterior
         else:
-            event.widget.delete(0, tk.END)
-    elif event.keysym == 'Return':
+            event.widget.delete(0, tk.END)  # Limpia el cuadro actual
+    elif event.keysym == 'Return':  # Si se presiona Enter
         hacer_intento()
     if not event.char.isalpha() and event.keysym not in ("BackSpace", "Return"):
         return "break"
 
+# Borrar letras en el cuadro actual
 def borrar_letras():
     for i in range(5):
         cuadros_letras[intentos][i].delete(0, tk.END)
@@ -129,18 +129,17 @@ def ingresar_letra(letra):
     global intento_bloqueado
     if intento_bloqueado:
         return
-
     # Buscar la casilla vacía
     for i in range(5):
         if cuadros_letras[intentos][i].get() == "":
             cuadros_letras[intentos][i].insert(tk.END, letra)
             return
 
+# Borrar la última letra ingresada
 def borrar_virtual():
     global intento_bloqueado
     if intento_bloqueado:
         return
-
     for i in reversed(range(5)):
         if cuadros_letras[intentos][i].get() != "":
             cuadros_letras[intentos][i].delete(0, tk.END)
@@ -155,7 +154,6 @@ ventana.title("Stringle")
 # Centrar los elementos de la interfaz
 ventana.grid_columnconfigure(0, weight=1)
 ventana.grid_rowconfigure(0, weight=1)
-
 frame_central = tk.Frame(ventana, bg='black')
 frame_central.grid(row=0, column=0, padx=20, pady=20)
 
@@ -177,7 +175,6 @@ for intento in range(6):
 # Crear el teclado virtual
 frame_teclado = tk.Frame(frame_central, bg='black')
 frame_teclado.grid(row=7, columnspan=5, pady=20)
-
 teclas_botones = {}
 letras_teclado = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -196,7 +193,6 @@ for fila_index, fila_teclas in enumerate(letras_teclado):
 # Botones de "Enviar" y "Borrar"
 boton_enviar = tk.Button(frame_teclado, text="Enviar", command=hacer_intento, width=4, height=2, font=("Arial", 18), bg="green", fg="white")
 boton_enviar.grid(row=2, column=9, padx=5, pady=5)
-
 boton_borrar = tk.Button(frame_teclado, text="Borrar", command=borrar_virtual, width=4, height=2, font=("Arial", 18), bg="red", fg="white")
 boton_borrar.grid(row=1, column=9, padx=5, pady=5)
 
@@ -204,5 +200,4 @@ boton_borrar.grid(row=1, column=9, padx=5, pady=5)
 LISTA_PALABRAS_POSIBLES = cargar_palabras('palabras.txt')
 intentos = 0
 play_game()
-
 ventana.mainloop()
