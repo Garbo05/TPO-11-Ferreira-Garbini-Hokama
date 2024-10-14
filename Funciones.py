@@ -108,6 +108,8 @@ def on_key_press(event, letra, intento):
         return "break"
     elif event.keysym == "BackSpace":  # Maneja la tecla de retroceso
         if len(event.widget.get()) == 0:  # Si el cuadro está vacío
+            if letra == 0:  # Si es el primer cuadro, no permitir moverse hacia atrás
+                return "break"  # Impide cualquier acción si se está en el primer cuadro
             previous_widget = event.widget.tk_focusPrev()
             if previous_widget:
                 previous_widget.focus()  # Enfoca el cuadro anterior
@@ -118,6 +120,11 @@ def on_key_press(event, letra, intento):
         hacer_intento()
     if not event.char.isalpha() and event.keysym not in ("BackSpace", "Return"):
         return "break"
+
+
+# Función para limitar la entrada a un carácter
+def validate_char(char):
+    return len(char) <= 1
 
 # Salir del programa
 
@@ -168,10 +175,13 @@ titulo.grid(row=0, columnspan=5, pady=(0, 20))
 
 # Crear el grid de cuadros de letras
 cuadros_letras = []
+vcmd = (ventana.register(validate_char), '%P')  # Valida el número de caracteres
+
 for intento in range(6):
     fila_cuadros = []
     for letra in range(5):
-        cuadro = tk.Entry(frame_central, width=3, font=("Arial", 40), justify="center", bg="black", fg="white", relief="solid", highlightbackground="gray", highlightthickness=2)
+        cuadro = tk.Entry(frame_central, width=3, font=("Arial", 40), justify="center", bg="black", fg="white", relief="solid", highlightbackground="gray", highlightthickness=2,
+                          validate="key", validatecommand=vcmd)  # Añade validación
         cuadro.grid(row=intento+1, column=letra, padx=10, pady=10)
         cuadro.bind("<Key>", lambda event, l=letra, i=intento: on_key_press(event, l, i))
         fila_cuadros.append(cuadro)
