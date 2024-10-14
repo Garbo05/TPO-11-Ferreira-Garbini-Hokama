@@ -204,8 +204,9 @@ boton_enviar = tk.Button(frame_teclado, text="Enviar", command=hacer_intento, wi
 boton_enviar.grid(row=2, column=9, padx=5, pady=5)
 boton_borrar = tk.Button(frame_teclado, text="Borrar", command=borrar_virtual, width=4, height=2, font=("Arial", 18), bg="red", fg="white")
 boton_borrar.grid(row=1, column=9, padx=5, pady=5)
-boton_salir = tk.Button(frame_esquina, text="X", command=salir_programa, width=3, height=3, font=("Arial",18), bg="red", fg="white")
-boton_salir.grid(row=10, column=0, padx=0, pady=0)
+# Boton de salida del programa
+boton_salir = tk.Button(ventana, text="X", command=salir_programa, width=3, height=2, font=("Arial", 18), bg="red", fg="white")
+boton_salir.place(x=10, y=10)  # Adjusted to place the button at the top-left corner
 
 # Cargar palabras y comenzar el juego
 LISTA_PALABRAS_POSIBLES = cargar_palabras('palabras.txt')
