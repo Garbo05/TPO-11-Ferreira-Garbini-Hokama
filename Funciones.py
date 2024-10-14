@@ -91,10 +91,10 @@ def hacer_intento():
         # Verifica si ganó o si se acabaron los intentos
         if palabra == secret_word:
             messagebox.showinfo("¡Felicidades!", f"La palabra secreta era {secret_word}.")
-            return
+            return exit()
         elif intentos == 6:
             messagebox.showinfo("Fin del juego", f"Se acabaron los intentos. La palabra secreta era {secret_word}.")
-            return
+            return exit()
         
         cuadros_letras[intentos][0].focus()  # Enfoca el primer cuadro del siguiente intento
 
@@ -118,6 +118,11 @@ def on_key_press(event, letra, intento):
         hacer_intento()
     if not event.char.isalpha() and event.keysym not in ("BackSpace", "Return"):
         return "break"
+
+# Salir del programa
+
+def salir_programa():
+    return exit()
 
 # Borrar letras en el cuadro actual
 def borrar_letras():
@@ -190,11 +195,17 @@ for fila_index, fila_teclas in enumerate(letras_teclado):
         boton.grid(row=fila_index, column=col_index, padx=5, pady=5)
         teclas_botones[letra] = boton
 
+# Boton de salida del programa
+frame_esquina = tk.Frame(ventana, bg='black')
+frame_esquina.grid(row=0,column=0,pady=0, padx=0)
+
 # Botones de "Enviar" y "Borrar"
 boton_enviar = tk.Button(frame_teclado, text="Enviar", command=hacer_intento, width=4, height=2, font=("Arial", 18), bg="green", fg="white")
 boton_enviar.grid(row=2, column=9, padx=5, pady=5)
 boton_borrar = tk.Button(frame_teclado, text="Borrar", command=borrar_virtual, width=4, height=2, font=("Arial", 18), bg="red", fg="white")
 boton_borrar.grid(row=1, column=9, padx=5, pady=5)
+boton_salir = tk.Button(frame_esquina, text="X", command=salir_programa, width=3, height=3, font=("Arial",18), bg="red", fg="white")
+boton_salir.grid(row=10, column=0, padx=0, pady=0)
 
 # Cargar palabras y comenzar el juego
 LISTA_PALABRAS_POSIBLES = cargar_palabras('palabras.txt')
