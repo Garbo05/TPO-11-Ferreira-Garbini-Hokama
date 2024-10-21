@@ -3,8 +3,7 @@
 import emoji
 import tkinter as tk
 import tkinter.ttk as ttk
-from Funciones import validate_guess, remove_accents, play_game, \
-    cargar_palabras, hacer_intento
+from Funciones import play_game, cargar_palabras
 
 # PROGRAMA PRINCIPAL
 # Cargar la lista de palabras desde el archivo
