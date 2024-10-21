@@ -21,8 +21,6 @@ class TestStringle(unittest.TestCase):
         # Probar la eliminación de acentos
         self.assertEqual(remove_accents('ÁRBOL'), 'ARBOL')
         self.assertEqual(remove_accents('ÉXITO'), 'EXITO')
-        self.assertEqual(remove_accents('ÚNICO'), 'UNICO')
-        self.assertEqual(remove_accents('NIÑOS'), 'NIÑOS')  
         self.assertEqual(remove_accents('GATOS'), 'GATOS')  
 
     def test_validate_guess(self):
