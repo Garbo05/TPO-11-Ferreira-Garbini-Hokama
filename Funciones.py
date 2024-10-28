@@ -1,9 +1,9 @@
 import tkinter as tk
 import random
 from tkinter import messagebox
-import time
 import importlib
 import Funciones
+import datetime
 
 # Variables globales
 cuadros_letras = []
@@ -11,7 +11,7 @@ teclas_botones = {}
 intentos = 0
 intento_bloqueado = False
 LISTA_PALABRAS_POSIBLES = []
-
+hora_actual = datetime.datetime.now()
 
 # Función para reiniciar el módulo Funciones y el juego
 def resetear_juego():
@@ -61,10 +61,16 @@ def play_game():
         for j in range(5):
             cuadros_letras[i][j].config(state="normal")
             cuadros_letras[i][j].delete(0, tk.END)
-            cuadros_letras[i][j].config(
-                state="normal", bg="black",
-                fg="white", highlightbackground="gray", highlightthickness=2
-                )  # Restablece el color de fondo
+            if hora_actual.hour >= 20 or hora_actual.hour < 6:
+                cuadros_letras[i][j].config(
+                    state="normal", bg="black",
+                    fg="white", highlightbackground="gray", highlightthickness=2
+                    )  # Restablece el color de fondo
+            else:
+                cuadros_letras[i][j].config(
+                    state="normal", bg="white",
+                    fg="black", highlightbackground="gray", highlightthickness=2
+                    )  # Restablece el color de fondo
     # Reinicia los colores de las teclas
     for letra, boton in teclas_botones.items():
         boton.config(bg="gray", fg="white")
@@ -179,19 +185,31 @@ def crear_ventana():
     global ventana, cuadros_letras, teclas_botones, LISTA_PALABRAS_POSIBLES
     ventana = tk.Tk()
     ventana.attributes("-fullscreen", True)  # Pantalla completa
-    ventana.config(bg='black')
+    if hora_actual.hour >= 20 or hora_actual.hour < 6:
+        ventana.config(bg='black')
+    else:
+        ventana.config(bg='white')
     ventana.title("Stringle")
 
     # Centrar los elementos de la interfaz
     ventana.grid_columnconfigure(0, weight=1)
     ventana.grid_rowconfigure(0, weight=1)
-    frame_central = tk.Frame(ventana, bg='black')
+    if hora_actual.hour >= 20 or hora_actual.hour < 6:
+        frame_central = tk.Frame(ventana, bg='black')
+    else:
+        frame_central = tk.Frame(ventana, bg='white')
     frame_central.grid(row=0, column=0, padx=20, pady=20)
 
     # Título del juego
-    titulo = tk.Label(
+    if hora_actual.hour >= 20 or hora_actual.hour < 6:
+        titulo = tk.Label(
         frame_central, text="LA PALABRA DEL DÍA",
         font=("Arial", 24), bg="black", fg="white"
+        )
+    else:
+        titulo = tk.Label(
+        frame_central, text="LA PALABRA DEL DÍA",
+        font=("Arial", 24), bg="white", fg="black"
         )
     titulo.grid(row=0, columnspan=5, pady=(0, 20))
 
@@ -200,9 +218,16 @@ def crear_ventana():
     for intento in range(6):
         fila_cuadros = []
         for letra in range(5):
-            cuadro = tk.Entry(
+            if hora_actual.hour >= 20 or hora_actual.hour < 6:
+                cuadro = tk.Entry(
                 frame_central, font=("Arial", 16), width=3,
                 justify="center", bg="black", fg="white",
+                highlightbackground="gray", highlightthickness=2
+                )
+            else:
+                cuadro = tk.Entry(
+                frame_central, font=("Arial", 16), width=3,
+                justify="center", bg="white", fg="black",
                 highlightbackground="gray", highlightthickness=2
                 )
             cuadro.grid(row=intento+1, column=letra, padx=5, pady=5)
@@ -214,8 +239,12 @@ def crear_ventana():
         cuadros_letras.append(fila_cuadros)
 
     # Crear teclado virtual (teclas)
-    frame_teclado = tk.Frame(ventana, bg='black')
+    if hora_actual.hour >= 20 or hora_actual.hour < 6:
+        frame_teclado = tk.Frame(ventana, bg='black')
+    else:
+        frame_teclado = tk.Frame(ventana, bg='white')
     frame_teclado.grid(row=1, column=0, pady=20)
+
 
     letras_fila1 = "QWERTYUIOP"
     letras_fila2 = "ASDFGHJKLÑ"

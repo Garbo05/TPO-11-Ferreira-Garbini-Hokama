@@ -1,5 +1,8 @@
 import tkinter as tk
 from Funciones import crear_ventana, cargar_palabras  # Importar la función para crear la ventana del juego
+import datetime
+
+hora_actual = datetime.datetime.now()
 
 # Cargar la lista de palabras desde el archivo
 LISTA_PALABRAS_POSIBLES = cargar_palabras('palabras.txt')
@@ -8,14 +11,17 @@ LISTA_PALABRAS_POSIBLES = cargar_palabras('palabras.txt')
 INTENTOS_MAXIMO = 6
 
 # Crear la ventana de instrucciones como la ventana principal
-instrucciones_ventana = tk.Tk()  # Usamos Tk() en vez de Toplevel para evitar ventana en blanco
+instrucciones_ventana = tk.Tk()
 instrucciones_ventana.attributes("-fullscreen", True)  # Pantalla completa
 instrucciones_ventana.config(bg="black")
 instrucciones_ventana.title("Instrucciones")
 
 # Función para mostrar las instrucciones con un ejemplo gráfico
 def mostrar_instrucciones():
-    frame_central = tk.Frame(instrucciones_ventana, bg='black')
+    if hora_actual.hour >= 20 or hora_actual.hour < 6:
+        frame_central = tk.Frame(instrucciones_ventana, bg='black')
+    else:
+        frame_central = tk.Frame(instrucciones_ventana, bg='white')
     frame_central.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
     
     # Asegurar que el contenido del frame central se centre
@@ -23,7 +29,10 @@ def mostrar_instrucciones():
     instrucciones_ventana.grid_columnconfigure(0, weight=1)
     
     # Título "LA PALABRA DEL DÍA" centrado
-    titulo = tk.Label(frame_central, text="LA PALABRA DEL DÍA", font=("Arial", 24), bg="black", fg="white", anchor="center")
+    if hora_actual.hour >= 20 or hora_actual.hour < 6:
+            titulo = tk.Label(frame_central, text="LA PALABRA DEL DÍA", font=("Arial", 24), bg="black", fg="white", anchor="center")
+    else:
+         titulo = tk.Label(frame_central, text="LA PALABRA DEL DÍA", font=("Arial", 24), bg="white", fg="black", anchor="center")
     titulo.grid(row=0, columnspan=5, pady=(0, 20))
 
     # Texto explicativo de las instrucciones centrado
@@ -39,7 +48,11 @@ def mostrar_instrucciones():
         "mostrarán en color ROJO. \n"
         "Los resultados se verían así: \n"
     )
-    instrucciones_label = tk.Label(frame_central, text=instrucciones_texto, bg="black", fg="white", font=("Arial", 14), justify="left")
+    if hora_actual.hour >= 20 or hora_actual.hour < 6:
+        instrucciones_label = tk.Label(frame_central, text=instrucciones_texto, bg="black", fg="white", font=("Arial", 14), justify="left")
+    else:
+         instrucciones_label = tk.Label(frame_central, text=instrucciones_texto, bg="white", fg="black", font=("Arial", 14), justify="left")
+         
     instrucciones_label.grid(row=1, columnspan=5, pady=(0, 20), sticky="w")  # Sticky w (west) para que se alinee correctamente
 
     ejemplos = [
