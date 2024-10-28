@@ -44,7 +44,7 @@ def mostrar_instrucciones():
 
     ejemplos = [
         (['T', 'O', 'R', 'N', 'O'], ['gray', 'gray', 'gray', 'gray', 'gray']),  # Ninguna letra pertenece
-        (['A', 'C', 'E', 'R', 'O'], ['yellow', 'yellow', 'gray', 'gray', 'gray']),  # Alguna letra en posición incorrecta
+        (['A', 'C', 'E', 'R', 'O'], ['#FCD12A', '#FCD12A', 'gray', 'gray', 'gray']),  # Alguna letra en posición incorrecta
         (['C', 'A', 'R', 'T', 'A'], ['green', 'green', 'green', 'green', 'green'])  # Todo correcto
     ]
 

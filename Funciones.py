@@ -103,7 +103,7 @@ def hacer_intento():
             if resultado[i] == '':
                 if palabra[i] in secret_word and \
                         diccionario_secreto[palabra[i]] > 0:
-                            resultado[i] = 'yellow'
+                            resultado[i] = '#FCD12A'
                             diccionario_secreto[palabra[i]] -= 1
                 else:
                     resultado[i] = 'gray'
