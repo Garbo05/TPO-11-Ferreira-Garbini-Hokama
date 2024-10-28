@@ -64,8 +64,9 @@ def mostrar_instrucciones():
     # Crear el ejemplo gráfico centrado
     for i, (palabra, colores) in enumerate(ejemplos):
         for j, (letra, color) in enumerate(zip(palabra, colores)):
-            cuadro = tk.Entry(frame_central, width=3, font=("Arial", 40), justify="center", bg=color, fg="white", relief="solid", highlightbackground="gray", highlightthickness=2)
+            cuadro = tk.Entry(frame_central, width=3, font=("Arial", 40), justify="center", fg="white", relief="solid", highlightbackground="gray", highlightthickness=2, disabledbackground=color, disabledforeground="white")  # Agregar disabledforeground
             cuadro.insert(0, letra)
+            cuadro.config(state="disabled")  # Usar disabled en lugar de readonly
             cuadro.grid(row=i + 2, column=j, padx=10, pady=10)
 
     # Botón para empezar el juego centrado

@@ -145,6 +145,10 @@ def borrar_letra():
 
 # Manejar la entrada de teclado en el grid
 def on_key_press(event, letra, intento):
+    # Verificar si el intento corresponde al intento actual
+    if intento != intentos:
+        return 'break'  # Ignorar la entrada si no es el intento actual
+    
     if event.char.isalpha() and len(event.widget.get()) == 0:
         event.widget.insert(tk.END, event.char.upper())
         next_widget = event.widget.tk_focusNext()
