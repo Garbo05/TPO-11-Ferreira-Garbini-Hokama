@@ -16,6 +16,7 @@ comprobar coincidencia de 1 letra
 
 """
 import unittest
+import HtmlTestRunner
 from Validaciones import cargar_palabras, validate_guess, \
     validate_palabra, remove_accents
 
@@ -71,4 +72,4 @@ class TestStringle(unittest.TestCase):
         self.assertFalse(validate_palabra(self.palabras, 'AAAAA'))
 
 if __name__ == '__main__':
-    unittest.main()
+     unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner())
