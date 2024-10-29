@@ -126,7 +126,7 @@ def hacer_intento():
         intento_bloqueado = False  # Permite nuevos intentos
         # Verifica si ganó o si se acabaron los intentos
         if palabra == secret_word:
-            messagebox.showinfo("¡Felicidades!", f"La palabra secreta era{secret_word}.")
+            messagebox.showinfo("¡Felicidades!", f"La palabra secreta era {secret_word}.")
             return
         elif intentos == 6:
             messagebox.showinfo("Fin del juego", f"Se acabaron los intentos. La palabra secreta era {secret_word}.")
@@ -157,10 +157,11 @@ def on_key_press(event, letra, intento):
         return "break"
     elif event.keysym == "BackSpace":  # Maneja la tecla de retroceso
         if len(event.widget.get()) == 0:  # Si el cuadro está vacío
-            previous_widget = event.widget.tk_focusPrev()
-            if previous_widget:
-                previous_widget.focus()  # Enfoca el cuadro anterior
-                previous_widget.delete(0, tk.END)  # Limpia el cuadro anterior
+            if letra != 0:
+                previous_widget = event.widget.tk_focusPrev()
+                if previous_widget:
+                    previous_widget.focus()  # Enfoca el cuadro anterior
+                    previous_widget.delete(0, tk.END)  # Limpia el cuadro anterior
         else:
             event.widget.delete(0, tk.END)  # Limpia el cuadro actual
     elif event.keysym == 'Return':  # Si se presiona Enter

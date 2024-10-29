@@ -22,7 +22,7 @@ def mostrar_instrucciones():
         frame_central = tk.Frame(instrucciones_ventana, bg='black')
     else:
         frame_central = tk.Frame(instrucciones_ventana, bg='white')
-    frame_central.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
+    frame_central.grid(row=0, column=0, padx=20, pady=20)
     
     # Asegurar que el contenido del frame central se centre
     instrucciones_ventana.grid_rowconfigure(0, weight=1)
@@ -30,9 +30,9 @@ def mostrar_instrucciones():
     
     # Título "LA PALABRA DEL DÍA" centrado
     if hora_actual.hour >= 20 or hora_actual.hour < 6:
-            titulo = tk.Label(frame_central, text="LA PALABRA DEL DÍA", font=("Arial", 24), bg="black", fg="white", anchor="center")
+            titulo = tk.Label(frame_central, text="LA PALABRA DEL DÍA", font=("Arial", 24), bg="black", fg="white", anchor="center", justify='center')
     else:
-         titulo = tk.Label(frame_central, text="LA PALABRA DEL DÍA", font=("Arial", 24), bg="white", fg="black", anchor="center")
+         titulo = tk.Label(frame_central, text="LA PALABRA DEL DÍA", font=("Arial", 24), bg="white", fg="black", anchor="center", justify='center')
     titulo.grid(row=0, columnspan=5, pady=(0, 20))
 
     # Texto explicativo de las instrucciones centrado
@@ -45,15 +45,15 @@ def mostrar_instrucciones():
         "Las que formen parte de la palabra, pero están en la \n"
         "posición incorrecta, se mostrarán en color \n"
         "AMARILLO. Las que no estén dentro de la palabra se \n"
-        "mostrarán en color ROJO. \n"
+        "mostrarán en color GRIS. \n"
         "Los resultados se verían así: \n"
     )
     if hora_actual.hour >= 20 or hora_actual.hour < 6:
-        instrucciones_label = tk.Label(frame_central, text=instrucciones_texto, bg="black", fg="white", font=("Arial", 14), justify="left")
+        instrucciones_label = tk.Label(frame_central, text=instrucciones_texto, bg="black", fg="white", font=("Arial", 14), justify="center")
     else:
-         instrucciones_label = tk.Label(frame_central, text=instrucciones_texto, bg="white", fg="black", font=("Arial", 14), justify="left")
+         instrucciones_label = tk.Label(frame_central, text=instrucciones_texto, bg="white", fg="black", font=("Arial", 14), justify="center")
          
-    instrucciones_label.grid(row=1, columnspan=5, pady=(0, 20), sticky="w")  # Sticky w (west) para que se alinee correctamente
+    instrucciones_label.grid(row=1, columnspan=5, pady=(0, 20))
 
     ejemplos = [
         (['T', 'O', 'R', 'N', 'O'], ['gray', 'gray', 'gray', 'gray', 'gray']),  # Ninguna letra pertenece
