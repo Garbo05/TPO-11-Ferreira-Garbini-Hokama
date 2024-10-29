@@ -147,27 +147,27 @@ def borrar_letra():
 def on_key_press(event, letra, intento):
     # Verificar si el intento corresponde al intento actual
     if intento != intentos:
-        return 'break'  # Ignorar la entrada si no es el intento actual
-    
-    if event.char.isalpha() and len(event.widget.get()) == 0:
-        event.widget.insert(tk.END, event.char.upper())
+        return "break"  # Ignorar la entrada si no es el intento actual
+
+    if event.char.isalpha():
+        event.widget.delete(0, tk.END)  # Borrar el contenido actual
+        event.widget.insert(0, event.char.upper())  # Insertar el nuevo carácter
         next_widget = event.widget.tk_focusNext()
-        if next_widget and letra != 4:  # Si no es el último cuadro
-            next_widget.focus()  # Mueve el foco al siguiente cuadro
+        if next_widget and letra != 4:
+            next_widget.focus()
         return "break"
-    elif event.keysym == "BackSpace":  # Maneja la tecla de retroceso
-        if len(event.widget.get()) == 0:  # Si el cuadro está vacío
-            if letra != 0:
+    elif event.keysym == "BackSpace":
+        if len(event.widget.get()) == 0:
+            if letra != 0:  # Verificar si NO es el primer casillero
                 previous_widget = event.widget.tk_focusPrev()
                 if previous_widget:
-                    previous_widget.focus()  # Enfoca el cuadro anterior
-                    previous_widget.delete(0, tk.END)  # Limpia el cuadro anterior
+                    previous_widget.focus()
+                    previous_widget.delete(0, tk.END)
         else:
-            event.widget.delete(0, tk.END)  # Limpia el cuadro actual
-    elif event.keysym == 'Return':  # Si se presiona Enter
+            event.widget.delete(0, tk.END)
+    elif event.keysym == 'Return':
         hacer_intento()
-    if not event.char.isalpha() and \
-            event.keysym not in ("BackSpace", "Return"):
+    if not event.char.isalpha() and event.keysym not in ("BackSpace", "Return"):
         return "break"
 
 
@@ -303,7 +303,8 @@ def crear_ventana():
 # Ingresar letra desde el teclado virtual
 def ingresar_letra(letra):
     widget_actual = cuadros_letras[intentos][0].focus_get()
-    widget_actual.insert(tk.END, letra.upper())
+    widget_actual.delete(0, tk.END)  # Borrar el contenido actual
+    widget_actual.insert(0, letra.upper())  # Insertar el nuevo carácter
     next_widget = widget_actual.tk_focusNext()
     if next_widget:
         next_widget.focus()

@@ -53,7 +53,7 @@ def mostrar_instrucciones():
     else:
          instrucciones_label = tk.Label(frame_central, text=instrucciones_texto, bg="white", fg="black", font=("Arial", 14), justify="center")
          
-    instrucciones_label.grid(row=1, columnspan=5, pady=(0, 20))
+    instrucciones_label.grid(row=1, columnspan=5, pady=(0, 20))c
 
     ejemplos = [
         (['T', 'O', 'R', 'N', 'O'], ['gray', 'gray', 'gray', 'gray', 'gray']),  # Ninguna letra pertenece
