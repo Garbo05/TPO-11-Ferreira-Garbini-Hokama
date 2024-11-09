@@ -14,6 +14,8 @@ LISTA_PALABRAS_POSIBLES = []
 hora_actual = datetime.datetime.now()
 
 # Función para reiniciar el módulo Funciones y el juego
+
+
 def resetear_juego():
     global ventana
     ventana.destroy()
@@ -22,10 +24,20 @@ def resetear_juego():
 
 
 # Cargar palabras desde un archivo .txt
+
 def cargar_palabras(archivo):
-    with open(archivo, 'r', encoding='utf-8') as f:
-        palabras = [linea.strip() for linea in f.readlines()]
-    return palabras
+    with open(archivo, 'r+', encoding='utf-8') as f:
+        # Leer todas las líneas y agregar tabulación al inicio de cada palabra
+        palabras = ["\t" + linea.strip() for linea in f.readlines()]
+
+        # Volver al inicio del archivo para sobreescribirlo
+        f.seek(0)
+
+        # Escribir las palabras con tabulación al inicio en el archivo
+        f.write("\n".join(palabras))
+
+        # Truncar el archivo para eliminar cualquier contenido adicional
+        f.truncate()
 
 
 # Elimina los acentos de una palabra
@@ -64,12 +76,14 @@ def play_game():
             if hora_actual.hour >= 20 or hora_actual.hour < 6:
                 cuadros_letras[i][j].config(
                     state="normal", bg="black",
-                    fg="white", highlightbackground="gray", highlightthickness=2
+                    fg="white", highlightbackground="gray",
+                    highlightthickness=2
                     )  # Restablece el color de fondo
             else:
                 cuadros_letras[i][j].config(
                     state="normal", bg="white",
-                    fg="black", highlightbackground="gray", highlightthickness=2
+                    fg="black", highlightbackground="gray",
+                    highlightthickness=2
                     )  # Restablece el color de fondo
     # Reinicia los colores de las teclas
     for letra, boton in teclas_botones.items():
@@ -109,10 +123,11 @@ def hacer_intento():
             if resultado[i] == '':
                 if palabra[i] in secret_word and \
                         diccionario_secreto[palabra[i]] > 0:
-                            resultado[i] = '#FCD12A'
-                            diccionario_secreto[palabra[i]] -= 1
+                    resultado[i] = '#FCD12A'
+                    diccionario_secreto[palabra[i]] -= 1
                 else:
                     resultado[i] = 'gray'
+
         # Actualizar la interfaz con los colores
         for i in range(5):
             cuadros_letras[intentos][i].config(state="normal")
@@ -126,10 +141,15 @@ def hacer_intento():
         intento_bloqueado = False  # Permite nuevos intentos
         # Verifica si ganó o si se acabaron los intentos
         if palabra == secret_word:
-            messagebox.showinfo("¡Felicidades!", f"La palabra secreta era {secret_word}.")
+            messagebox.showinfo("¡Felicidades!",
+                                f"La palabra secreta era {secret_word}."
+                                )
             return
         elif intentos == 6:
-            messagebox.showinfo("Fin del juego", f"Se acabaron los intentos. La palabra secreta era {secret_word}.")
+            messagebox.showinfo("Fin del juego",
+                                "Se acabaron los intentos."
+                                "La palabra secreta era {secret_word}."
+                                )
             return
         cuadros_letras[intentos][0].focus()
 
@@ -151,7 +171,7 @@ def on_key_press(event, letra, intento):
 
     if event.char.isalpha():
         event.widget.delete(0, tk.END)  # Borrar el contenido actual
-        event.widget.insert(0, event.char.upper())  # Insertar el nuevo carácter
+        event.widget.insert(0, event.char.upper())  # Insertar nuevo carácter
         next_widget = event.widget.tk_focusNext()
         if next_widget and letra != 4:
             next_widget.focus()
@@ -167,7 +187,8 @@ def on_key_press(event, letra, intento):
             event.widget.delete(0, tk.END)
     elif event.keysym == 'Return':
         hacer_intento()
-    if not event.char.isalpha() and event.keysym not in ("BackSpace", "Return"):
+    if not event.char.isalpha() and \
+            event.keysym not in ("BackSpace", "Return"):
         return "break"
 
 
@@ -208,14 +229,14 @@ def crear_ventana():
     # Título del juego
     if hora_actual.hour >= 20 or hora_actual.hour < 6:
         titulo = tk.Label(
-        frame_central, text="LA PALABRA DEL DÍA",
-        font=("Arial", 24), bg="black", fg="white"
-        )
+            frame_central, text="LA PALABRA DEL DÍA",
+            font=("Arial", 24), bg="black", fg="white"
+            )
     else:
         titulo = tk.Label(
-        frame_central, text="LA PALABRA DEL DÍA",
-        font=("Arial", 24), bg="white", fg="black"
-        )
+            frame_central, text="LA PALABRA DEL DÍA",
+            font=("Arial", 24), bg="white", fg="black"
+            )
     titulo.grid(row=0, columnspan=5, pady=(0, 20))
 
     # Crear el grid de cuadros de letras (intentos)
@@ -225,16 +246,16 @@ def crear_ventana():
         for letra in range(5):
             if hora_actual.hour >= 20 or hora_actual.hour < 6:
                 cuadro = tk.Entry(
-                frame_central, font=("Arial", 16), width=3,
-                justify="center", bg="black", fg="white",
-                highlightbackground="gray", highlightthickness=2
-                )
+                    frame_central, font=("Arial", 16), width=3,
+                    justify="center", bg="black", fg="white",
+                    highlightbackground="gray", highlightthickness=2
+                    )
             else:
                 cuadro = tk.Entry(
-                frame_central, font=("Arial", 16), width=3,
-                justify="center", bg="white", fg="black",
-                highlightbackground="gray", highlightthickness=2
-                )
+                    frame_central, font=("Arial", 16), width=3,
+                    justify="center", bg="white", fg="black",
+                    highlightbackground="gray", highlightthickness=2
+                    )
             cuadro.grid(row=intento+1, column=letra, padx=5, pady=5)
             cuadro.bind(
                 "<Key>", lambda event, letra=letra,
@@ -250,7 +271,6 @@ def crear_ventana():
         frame_teclado = tk.Frame(ventana, bg='white')
     frame_teclado.grid(row=1, column=0, pady=20)
 
-
     letras_fila1 = "QWERTYUIOP"
     letras_fila2 = "ASDFGHJKLÑ"
     letras_fila3 = "ZXCVBNM"
@@ -261,7 +281,7 @@ def crear_ventana():
             boton = tk.Button(
                 frame_teclado, text=letra, font=("Arial", 14),
                 width=4, height=2, bg="gray", fg="white",
-                command=lambda l=letra: ingresar_letra(l)
+                command=lambda letter=letra: ingresar_letra(letter)
                 )
             boton.grid(row=fila, column=columna, padx=5, pady=5)
             teclas_botones[letra] = boton

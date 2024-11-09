@@ -71,5 +71,6 @@ class TestStringle(unittest.TestCase):
     def test_validate_word_not_in_text_file(self):
         self.assertFalse(validate_palabra(self.palabras, 'AAAAA'))
 
+
 if __name__ == '__main__':
-     unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner())
+    unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner())

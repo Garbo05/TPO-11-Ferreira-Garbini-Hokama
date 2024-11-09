@@ -3,6 +3,7 @@ def cargar_palabras(archivo):
         palabras = [linea.strip() for linea in f.readlines()]
     return palabras
 
+
 def remove_accents(word):
     diccionario_tildes = {
         'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
@@ -10,8 +11,10 @@ def remove_accents(word):
     }
     return ''.join(diccionario_tildes.get(letra, letra) for letra in word)
 
+
 def validate_guess(word):
     return len(word) == 5 and word.isalpha()
+
 
 def validate_palabra(palabras, word):
     word = remove_accents(word)
