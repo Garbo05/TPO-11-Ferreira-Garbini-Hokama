@@ -26,9 +26,9 @@ def resetear_juego():
 # Cargar palabras desde un archivo .txt
 
 def cargar_palabras(archivo):
-    with open(archivo, 'r+', encoding='utf-8') as f:
-        # Leer todas las líneas y agregar tabulación al inicio de cada palabra
-        palabras = ["\t" + linea.strip() for linea in f.readlines()]
+    with open(archivo, 'r', encoding='utf-8') as f:
+        # Lee las palabras y devuelve la lista sin modificación
+        return [linea.strip().upper() for linea in f.readlines()]
 
         # Volver al inicio del archivo para sobreescribirlo
         f.seek(0)
@@ -148,7 +148,7 @@ def hacer_intento():
         elif intentos == 6:
             messagebox.showinfo("Fin del juego",
                                 "Se acabaron los intentos."
-                                "La palabra secreta era {secret_word}."
+                                f"La palabra secreta era {secret_word}."
                                 )
             return
         cuadros_letras[intentos][0].focus()
