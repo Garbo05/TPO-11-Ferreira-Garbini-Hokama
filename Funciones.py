@@ -286,7 +286,7 @@ def crear_ventana():
             boton.grid(row=fila, column=columna, padx=5, pady=5)
             teclas_botones[letra] = boton
 
-# Botones de "Enviar" y "Borrar"
+    # Botones de "Enviar" y "Borrar"
     boton_enviar = tk.Button(
         frame_teclado, text="Enviar",
         command=hacer_intento, width=4, height=2,
@@ -297,7 +297,8 @@ def crear_ventana():
         width=4, height=2, font=("Arial", 18), bg="red", fg="white"
         )
     boton_borrar.grid(row=1, column=9, padx=5, pady=5)
-# Boton de salida del programa
+
+    # Boton de salida del programa
     boton_salir = tk.Button(
         ventana, text="X", command=salir_programa, width=3,
         height=2, font=("Arial", 18), bg="red", fg="white"
@@ -306,8 +307,8 @@ def crear_ventana():
 
     # Botón para reiniciar el juego
     boton_jugar = tk.Button(
-        ventana, text="Jugar de nuevo", font=("Arial", 14),
-        width=10, height=2, bg="green", fg="white",
+        ventana, text="Jugar de nuevo", font=("Arial", 18), 
+        width=14, height=2, bg="green", fg="white",  
         command=resetear_juego)
     boton_jugar.grid(row=2, column=0, pady=20)
 
