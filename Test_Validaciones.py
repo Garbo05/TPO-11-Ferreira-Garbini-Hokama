@@ -1,20 +1,3 @@
-"""
-modo oscuro y claro dependiedo de la hora
-Solo letras
-Longitud de 5 caracteres
-longitud menor a 5
-longitud mayor a 5
-no numeros
-no caracteres especiales
-palabras en la lista
-palabras fuera de la lista
-comprobar coincidencia de 1 letra
-                            2 letras
-                            3 letras
-                            4 letras
-                            5 letras
-
-"""
 import unittest
 import HtmlTestRunner
 from Validaciones import cargar_palabras, validate_guess, \
