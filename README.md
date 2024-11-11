@@ -21,6 +21,9 @@ Cada intento proporciona retroalimentación sobre qué letras son correctas y si
 - No se permite el ingreso de números ni caracteres especiales.
 - Solo se permiten palabras que están en la lista de palabras posibles.
 
+## Preview
+![preview_img](./images/StringlePreview.png)
+
 ## Requisitos del Sistema
 - Python 3.x
 Librerías adicionales:

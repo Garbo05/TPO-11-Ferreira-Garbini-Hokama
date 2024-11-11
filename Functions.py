@@ -197,7 +197,7 @@ def create_window():
         window.config(bg='black')
     else:
         window.config(bg='white')
-    window.title("Stringle")
+    window.title("STRINGLE")
 
     # Centrar los elementos de la interfaz
     window.grid_columnconfigure(0, weight=1)

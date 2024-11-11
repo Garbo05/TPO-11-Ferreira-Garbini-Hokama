@@ -33,15 +33,15 @@ def show_instructions():
     window_instructions.grid_rowconfigure(0, weight=1)
     window_instructions.grid_columnconfigure(0, weight=1)
 
-    # Título "LA PALABRA DEL DÍA" centrado
+    # Título "STRINGLE" centrado
     if current_time.hour >= 20 or current_time.hour < 6:
         title = tk.Label(
-            central_frame, text="LA PALABRA DEL DÍA", font=("Arial", 24),
+            central_frame, text="Bienvenido a STRINGLE!", font=("Arial", 24),
             bg="black", fg="white", anchor="center", justify='center'
             )
     else:
         title = tk.Label(
-            central_frame, text="LA PALABRA DEL DÍA", font=("Arial", 24),
+            central_frame, text="Bienvenido a STRINGLE!", font=("Arial", 24),
             bg="white", fg="black", anchor="center", justify='center'
             )
     title.grid(row=0, columnspan=5, pady=(0, 20))
