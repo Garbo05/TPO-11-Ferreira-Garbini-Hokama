@@ -254,8 +254,8 @@ def create_window():
     keyboard_frame.grid(row=1, column=0, pady=20)
 
     letters_row1 = "QWERTYUIOP"
-    letters_row2 = "ASDFGHJKLÑ"
-    letters_row3 = "ZXCVBNM"
+    letters_row2 = "ASDFGHJKL"
+    letters_row3 = "ZXCVBNMÑ"
 
     letters_button = {}  # Para almacenar los botones
     for row, letters in enumerate([letters_row1, letters_row2, letters_row3]):
