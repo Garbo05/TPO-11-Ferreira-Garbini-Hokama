@@ -59,9 +59,11 @@ def play_game():
     attempts = 0  # Inicializa el número de intentos
     attempt_block = False  # Permite realizar intentos
 
+
 # Función para bloquear la entrada del teclado
 def block_keyboard(event):
     return "break"
+
 
 # Función para bloquear clics
 def block_click(event):
@@ -237,8 +239,8 @@ def create_window():
             cuadro.grid(row=guess+1, column=letter, padx=10, pady=10)
             cuadro.bind(
                 "<Key>", lambda event, letter=letter,
-                guess=guess: on_key_press(event, letter, guess)  
-                        ) # Manejar la entrada del teclado
+                guess=guess: on_key_press(event, letter, guess)
+                        )  # Manejar la entrada del teclado
             fila_cuadros.append(cuadro)
         letters_frames.append(fila_cuadros)
 

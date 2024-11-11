@@ -97,23 +97,26 @@ def show_instructions():
     # Botón para empezar el juego centrado
     start_game_btn = tk.Button(
         central_frame, text="Empezar Juego",
-        command=lambda: [window_instructions.destroy(), start_game()],
+        command=start_game_handler,
         bg="green", fg="white", font=("Arial", 18)
         )
     start_game_btn.grid(row=5, columnspan=5, pady=20, sticky="n")
 
-# Función para iniciar el juego (llama a la interfaz del archivo Funciones.py
+
+# Definir una función para manejar el evento del botón
+def start_game_handler():
+    window_instructions.destroy()
+    start_game()
 
 
+# Función para iniciar el juego (llama a la interfaz del archivo Funciones.py)
 def start_game():
     create_window()
 
+
 # Mostrar las instrucciones antes de comenzar el juego
-
-
 show_instructions()
 
+
 # Mantener la ventana de instrucciones abierta
-
-
 window_instructions.mainloop()
