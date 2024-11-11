@@ -1,6 +1,6 @@
 import unittest
 import HtmlTestRunner
-from Validations import load_words, validate_guess, \
+from Functions import load_words, validate_guess, \
     validate_word, remove_accents
 
 
