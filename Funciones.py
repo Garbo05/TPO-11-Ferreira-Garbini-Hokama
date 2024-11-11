@@ -220,12 +220,12 @@ def create_window():
     if current_time.hour >= 20 or current_time.hour < 6:
         titulo = tk.Label(
             frame_central, text="LA PALABRA DEL DÍA",
-            font=("Arial", 24), bg="black", fg="white"
+            font=("Arial", 36), bg="black", fg="white"
             )
     else:
         titulo = tk.Label(
             frame_central, text="LA PALABRA DEL DÍA",
-            font=("Arial", 24), bg="white", fg="black"
+            font=("Arial", 36), bg="white", fg="black"
             )
     titulo.grid(row=0, columnspan=5, pady=(0, 20))
 
@@ -236,17 +236,17 @@ def create_window():
         for letra in range(5):
             if current_time.hour >= 20 or current_time.hour < 6:
                 cuadro = tk.Entry(
-                    frame_central, font=("Arial", 16), width=3,
+                    frame_central, font=("Arial", 24), width=4,
                     justify="center", bg="black", fg="white",
                     highlightbackground="gray", highlightthickness=2
                     )
             else:
                 cuadro = tk.Entry(
-                    frame_central, font=("Arial", 16), width=3,
+                    frame_central, font=("Arial", 24), width=4,
                     justify="center", bg="white", fg="black",
                     highlightbackground="gray", highlightthickness=2
                     )
-            cuadro.grid(row=intento+1, column=letra, padx=5, pady=5)
+            cuadro.grid(row=intento+1, column=letra, padx=10, pady=10)
             cuadro.bind(
                 "<Key>", lambda event, letra=letra,
                 intento=intento: on_key_press(event, letra, intento)

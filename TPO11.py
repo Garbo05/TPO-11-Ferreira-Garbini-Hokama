@@ -13,10 +13,10 @@ MAXIMUM_ATTEMPTS = 6
 # Crear la ventana de instrucciones como la ventana principal
 window_instructions = tk.Tk()
 window_instructions.attributes("-fullscreen", True)  # Pantalla completa
-if current_time.hour >=20 or current_time.hour < 6:
+if current_time.hour >= 20 or current_time.hour < 6:
     window_instructions.config(bg="black")
 else:
-    window_instructions.config(bg="white") 
+    window_instructions.config(bg="white")
 window_instructions.title("Instrucciones")
 
 # Función para mostrar las instrucciones con un ejemplo gráfico
