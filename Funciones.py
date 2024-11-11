@@ -30,6 +30,7 @@ def charge_words(file):
         # Lee las palabras y devuelve la lista sin modificación
         return [linea.strip().upper() for linea in f.readlines()]
 
+
 # Elimina los acentos de una palabra
 def remove_accents(word):
     accents_dictionary = {
@@ -297,8 +298,8 @@ def create_window():
 
     # Botón para reiniciar el juego
     boton_jugar = tk.Button(
-        window, text="Jugar de nuevo", font=("Arial", 18), 
-        width=14, height=2, bg="green", fg="white",  
+        window, text="Jugar de nuevo", font=("Arial", 18),
+        width=14, height=2, bg="green", fg="white",
         command=reset_game)
     boton_jugar.grid(row=2, column=0, pady=20)
 
