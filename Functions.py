@@ -174,12 +174,14 @@ def on_key_press(event, letter, guess):
 
 # Borrar la última letra ingresada
 def virtual_delete():
-    global attempt_block
+    global attempts, attempt_block
     if attempt_block:
         return
     for i in reversed(range(5)):
         if letters_frames[attempts][i].get() != "":
             letters_frames[attempts][i].delete(0, tk.END)
+            if i > 0:
+                letters_frames[attempts][i - 1].focus()
             return
 
 
@@ -303,9 +305,12 @@ def create_window():
 
 # Ingresar letra desde el teclado virtual
 def enter_letter(letter):
-    current_widget = letters_frames[attempts][0].focus_get()
-    current_widget.delete(0, tk.END)  # Borrar el contenido actual
-    current_widget.insert(0, letter.upper())  # Insertar el nuevo carácter
-    next_widget = current_widget.tk_focusNext()
-    if next_widget:
-        next_widget.focus()
+    global attempts
+    # Encuentra el primer cuadro vacío en el intento actual
+    for i in range(5):
+        if letters_frames[attempts][i].get() == "":
+            letters_frames[attempts][i].delete(0, tk.END)
+            letters_frames[attempts][i].insert(0, letter.upper())
+            if i < 4:
+                letters_frames[attempts][i + 1].focus()
+            break
