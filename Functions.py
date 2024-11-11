@@ -2,7 +2,7 @@ import tkinter as tk
 import random
 from tkinter import messagebox
 import importlib
-import Funciones
+import Functions
 import datetime
 
 # Variables globales
@@ -10,7 +10,7 @@ letters_frames = []
 letters_button = {}
 attempts = 0
 attempt_block = False
-LIST_POSSIBLE_WORDS = []
+POSSIBLE_WORDS_LIST = []
 current_time = datetime.datetime.now()
 
 # Función para reiniciar el módulo Funciones y el juego
@@ -19,16 +19,16 @@ current_time = datetime.datetime.now()
 def reset_game():
     global window
     window.destroy()
-    importlib.reload(Funciones)  # Recarga todo el módulo Funciones
-    Funciones.create_window()  # Reinicia la ventana principal del juego
+    importlib.reload(Functions)  # Recarga todo el módulo Funciones
+    Functions.create_window()  # Reinicia la ventana principal del juego
 
 
 # Cargar palabras desde un archivo .txt
 
-def charge_words(file):
+def load_words(file):
     with open(file, 'r', encoding='utf-8') as f:
         # Lee las palabras y devuelve la lista sin modificación
-        return [linea.strip().upper() for linea in f.readlines()]
+        return [line.strip().upper() for line in f.readlines()]
 
 
 # Elimina los acentos de una palabra
@@ -45,16 +45,16 @@ def validate_guess(word):
 
 
 # Verifica si la palabra está en la lista de palabras posibles
-def validate_word(palabras, word):
+def validate_word(words, word):
     word = remove_accents(word)
-    return word in palabras
+    return word in words
 
 
 # Jugar el juego
 def play_game():
     global attempts, secret_word, letters_frames
-    global letters_button, attempt_block, LIST_POSSIBLE_WORDS
-    secret_word = random.choice(LIST_POSSIBLE_WORDS).upper()
+    global letters_button, attempt_block, POSSIBLE_WORDS_LIST
+    secret_word = random.choice(POSSIBLE_WORDS_LIST).upper()
     secret_word = remove_accents(secret_word)  # Elimina acentos
     attempts = 0  # Inicializa el número de intentos
     attempt_block = False  # Permite realizar intentos
@@ -83,28 +83,28 @@ def make_attempt():
         word = remove_accents(word)
         # Validar la palabra ingresada
         if not validate_guess(word) or not validate_word(
-                                            LIST_POSSIBLE_WORDS, word
+                                            POSSIBLE_WORDS_LIST, word
                                             ):
             for i in range(5):
                 letters_frames[attempts][i].delete(0, tk.END)
             letters_frames[attempts][0].focus()  # Enfoca el primer cuadro
             return
         result = [''] * 5
-        diccionario_secreto = {
+        secret_dictionary = {
             letter: secret_word.count(letter) for letter in set(secret_word)
             }
         # Comprobar letras correctas (verde)
         for i in range(5):
             if word[i] == secret_word[i]:
                 result[i] = 'green'
-                diccionario_secreto[word[i]] -= 1
+                secret_dictionary[word[i]] -= 1
         # Comprobar letras incorrectas (amarillo y gris)
         for i in range(5):
             if result[i] == '':
                 if word[i] in secret_word and \
-                        diccionario_secreto[word[i]] > 0:
+                        secret_dictionary[word[i]] > 0:
                     result[i] = '#FCD12A'
-                    diccionario_secreto[word[i]] -= 1
+                    secret_dictionary[word[i]] -= 1
                 else:
                     result[i] = 'gray'
 
@@ -135,7 +135,7 @@ def make_attempt():
 
 
 # Botón para borrar la letra actual o la anterior
-def borrar_letra():
+def delete_letter():
     for i in range(4, -1, -1):
         if letters_frames[attempts][i].get():
             letters_frames[attempts][i].delete(0, tk.END)
@@ -173,7 +173,7 @@ def on_key_press(event, letter, guess):
 
 
 # Borrar la última letra ingresada
-def borrar_virtual():
+def virtual_delete():
     global attempt_block
     if attempt_block:
         return
@@ -188,7 +188,7 @@ def exit_game():
 
 
 def create_window():
-    global window, letters_frames, letters_button, LIST_POSSIBLE_WORDS
+    global window, letters_frames, letters_button, POSSIBLE_WORDS_LIST
     window = tk.Tk()
     window.attributes("-fullscreen", True)  # Pantalla completa
     if current_time.hour >= 20 or current_time.hour < 6:
@@ -208,72 +208,72 @@ def create_window():
 
     # Título del juego
     if current_time.hour >= 20 or current_time.hour < 6:
-        titulo = tk.Label(
+        title = tk.Label(
             frame_central, text="LA PALABRA DEL DÍA",
             font=("Arial", 36), bg="black", fg="white"
             )
     else:
-        titulo = tk.Label(
+        title = tk.Label(
             frame_central, text="LA PALABRA DEL DÍA",
             font=("Arial", 36), bg="white", fg="black"
             )
-    titulo.grid(row=0, columnspan=5, pady=(0, 20))
+    title.grid(row=0, columnspan=5, pady=(0, 20))
 
     # Crear el grid de cuadros de letras (intentos)
     letters_frames = []
     for guess in range(6):
-        fila_cuadros = []
+        row_spaces = []
         for letter in range(5):
             if current_time.hour >= 20 or current_time.hour < 6:
-                cuadro = tk.Entry(
+                space = tk.Entry(
                     frame_central, font=("Arial", 24), width=4,
                     justify="center", bg="black", fg="white",
                     highlightbackground="gray", highlightthickness=2
                     )
             else:
-                cuadro = tk.Entry(
+                space = tk.Entry(
                     frame_central, font=("Arial", 24), width=4,
                     justify="center", bg="white", fg="black",
                     highlightbackground="gray", highlightthickness=2
                     )
-            cuadro.grid(row=guess+1, column=letter, padx=10, pady=10)
-            cuadro.bind(
+            space.grid(row=guess+1, column=letter, padx=10, pady=10)
+            space.bind(
                 "<Key>", lambda event, letter=letter,
                 guess=guess: on_key_press(event, letter, guess)
                         )  # Manejar la entrada del teclado
-            fila_cuadros.append(cuadro)
-        letters_frames.append(fila_cuadros)
+            row_spaces.append(space)
+        letters_frames.append(row_spaces)
 
     # Crear teclado virtual (teclas)
     if current_time.hour >= 20 or current_time.hour < 6:
-        frame_teclado = tk.Frame(window, bg='black')
+        keyboard_frame = tk.Frame(window, bg='black')
     else:
-        frame_teclado = tk.Frame(window, bg='white')
-    frame_teclado.grid(row=1, column=0, pady=20)
+        keyboard_frame = tk.Frame(window, bg='white')
+    keyboard_frame.grid(row=1, column=0, pady=20)
 
     letters_row1 = "QWERTYUIOP"
     letters_row2 = "ASDFGHJKLÑ"
     letters_row3 = "ZXCVBNM"
 
     letters_button = {}  # Para almacenar los botones
-    for fila, letras in enumerate([letters_row1, letters_row2, letters_row3]):
-        for columna, letter in enumerate(letras):
-            boton = tk.Button(
-                frame_teclado, text=letter, font=("Arial", 14),
+    for row, letters in enumerate([letters_row1, letters_row2, letters_row3]):
+        for column, letter in enumerate(letters):
+            button = tk.Button(
+                keyboard_frame, text=letter, font=("Arial", 14),
                 width=4, height=2, bg="gray", fg="white",
                 command=lambda letter=letter: enter_letter(letter)
                 )
-            boton.grid(row=fila, column=columna, padx=5, pady=5)
-            letters_button[letter] = boton
+            button.grid(row=row, column=column, padx=5, pady=5)
+            letters_button[letter] = button
 
     # Botones de "Enviar" y "Borrar"
     send_button = tk.Button(
-        frame_teclado, text="Enviar",
+        keyboard_frame, text="Enviar",
         command=make_attempt, width=4, height=2,
         font=("Arial", 18), bg="green", fg="white")
     send_button.grid(row=2, column=9, padx=5, pady=5)
     delete_button = tk.Button(
-        frame_teclado, text="Borrar", command=borrar_virtual,
+        keyboard_frame, text="Borrar", command=virtual_delete,
         width=4, height=2, font=("Arial", 18), bg="red", fg="white"
         )
     delete_button.grid(row=1, column=9, padx=5, pady=5)
@@ -293,7 +293,7 @@ def create_window():
     play_button.grid(row=2, column=0, pady=20)
 
     # Cargar las palabras del archivo .txt
-    LIST_POSSIBLE_WORDS = charge_words("words.txt")
+    POSSIBLE_WORDS_LIST = load_words("words.txt")
     # Iniciar el juego
     play_game()
 
@@ -303,9 +303,9 @@ def create_window():
 
 # Ingresar letra desde el teclado virtual
 def enter_letter(letter):
-    widget_actual = letters_frames[attempts][0].focus_get()
-    widget_actual.delete(0, tk.END)  # Borrar el contenido actual
-    widget_actual.insert(0, letter.upper())  # Insertar el nuevo carácter
-    next_widget = widget_actual.tk_focusNext()
+    current_widget = letters_frames[attempts][0].focus_get()
+    current_widget.delete(0, tk.END)  # Borrar el contenido actual
+    current_widget.insert(0, letter.upper())  # Insertar el nuevo carácter
+    next_widget = current_widget.tk_focusNext()
     if next_widget:
         next_widget.focus()

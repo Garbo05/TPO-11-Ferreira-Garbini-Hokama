@@ -1,14 +1,14 @@
 import tkinter as tk
-from Funciones import create_window, charge_words
+from Functions import create_window, load_words
 import datetime
 
 current_time = datetime.datetime.now()
 
 # Cargar la lista de palabras desde el archivo
-LIST_POSSIBLE_WORDS = charge_words('words.txt')
+POSSIBLE_WORDS_LIST = load_words('words.txt')
 
 # Número máximo de intentos
-MAXIMUM_ATTEMPTS = 6
+MAX_ATTEMPTS = 6
 
 # Crear la ventana de instrucciones como la ventana principal
 window_instructions = tk.Tk()
@@ -47,7 +47,7 @@ def show_instructions():
     title.grid(row=0, columnspan=5, pady=(0, 20))
 
     # Texto explicativo de las instrucciones centrado
-    instrucciones_texto = (
+    instructions_text = (
         "El juego consiste en adivinar una palabra de 5 letters, \n"
         "para ello cuentas con 6 intentos. Después de cada \n"
         "intento se te informará qué letters se encuentran en \n"
@@ -60,16 +60,16 @@ def show_instructions():
         "Los resultados se verían así: \n"
     )
     if current_time.hour >= 20 or current_time.hour < 6:
-        instrucciones_label = tk.Label(
-            central_frame, text=instrucciones_texto,
+        instructions_label = tk.Label(
+            central_frame, text=instructions_text,
             bg="black", fg="white", font=("Arial", 14), justify="center"
             )
     else:
-        instrucciones_label = tk.Label(
-            central_frame, text=instrucciones_texto,
+        instructions_label = tk.Label(
+            central_frame, text=instructions_text,
             bg="white", fg="black", font=("Arial", 14), justify="center"
             )
-    instrucciones_label.grid(row=1, columnspan=5, pady=(0, 20))
+    instructions_label.grid(row=1, columnspan=5, pady=(0, 20))
 
     # Ejemplo de colores
     examples = [
@@ -82,8 +82,8 @@ def show_instructions():
     ]
 
     # Crear el ejemplo gráfico centrado
-    for i, (word, colours) in enumerate(examples):
-        for j, (letter, color) in enumerate(zip(word, colours)):
+    for i, (word, colors) in enumerate(examples):
+        for j, (letter, color) in enumerate(zip(word, colors)):
             frame = tk.Entry(
                 central_frame, width=3, font=("Arial", 40), justify="center",
                 fg="white", relief="solid", highlightbackground="gray",
