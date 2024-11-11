@@ -48,10 +48,10 @@ def show_instructions():
 
     # Texto explicativo de las instrucciones centrado
     instructions_text = (
-        "El juego consiste en adivinar una palabra de 5 letters, \n"
-        "para ello cuentas con 6 intentos. Después de cada \n"
-        "intento se te informará qué letters se encuentran en \n"
-        "la palabra. Si se encuentra alguna letter en la posición \n"
+        "El juego consiste en adivinar una palabra de 5 letras, \n"
+        "para ello se cuenta con 6 intentos. Después de cada \n"
+        "intento se te informará qué letras se encuentran en \n"
+        "la palabra. Si se encuentra alguna letra en la posición \n"
         "correcta se marcará en color VERDE. \n"
         "Las que formen parte de la palabra, pero están en la \n"
         "posición incorrecta, se mostrarán en color \n"
