@@ -212,12 +212,12 @@ def create_window():
     if current_time.hour >= 20 or current_time.hour < 6:
         title = tk.Label(
             frame_central, text="LA PALABRA DEL DÍA",
-            font=("Arial", 36), bg="black", fg="white"
+            font=("Arial", 36, "bold"), bg="black", fg="white"
             )
     else:
         title = tk.Label(
             frame_central, text="LA PALABRA DEL DÍA",
-            font=("Arial", 36), bg="white", fg="black"
+            font=("Arial", 36, "bold"), bg="white", fg="black"
             )
     title.grid(row=0, columnspan=5, pady=(0, 20))
 

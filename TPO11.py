@@ -33,28 +33,23 @@ def show_instructions():
     # Título "STRINGLE" centrado
     if current_time.hour >= 20 or current_time.hour < 6:
         title = tk.Label(
-            central_frame, text="Bienvenido a STRINGLE!", font=("Arial", 24),
+            central_frame, text="Bienvenido a STRINGLE!",
+            font=("Arial", 24, "bold"),
             bg="black", fg="white", anchor="center", justify='center'
             )
     else:
         title = tk.Label(
-            central_frame, text="Bienvenido a STRINGLE!", font=("Arial", 24),
+            central_frame, text="Bienvenido a STRINGLE!",
+            font=("Arial", 24, "bold"),
             bg="white", fg="black", anchor="center", justify='center'
             )
     title.grid(row=0, columnspan=5, pady=(0, 20))
 
     # Texto explicativo de las instrucciones centrado
     instructions_text = (
-        "El juego consiste en adivinar una palabra de 5 letras, \n"
-        "para ello se cuenta con 6 intentos. Después de cada \n"
-        "intento se te informará qué letras se encuentran en \n"
-        "la palabra. Si se encuentra alguna letra en la posición \n"
-        "correcta se marcará en color VERDE. \n"
-        "Las que formen parte de la palabra, pero están en la \n"
-        "posición incorrecta, se mostrarán en color \n"
-        "AMARILLO. Las que no estén dentro de la palabra se \n"
-        "mostrarán en color GRIS. \n"
-        "Los resultados se verían así: \n"
+        "El juego consiste en adivinar una palabra de 5 letras.\n"
+        "Para ello cuenta con 6 intentos.\n\n"
+        "Se informará por medio de colores la certeza de cada intento:\n"
     )
     if current_time.hour >= 20 or current_time.hour < 6:
         instructions_label = tk.Label(
@@ -66,7 +61,23 @@ def show_instructions():
             central_frame, text=instructions_text,
             bg="white", fg="black", font=("Arial", 14), justify="center"
             )
-    instructions_label.grid(row=1, columnspan=5, pady=(0, 20))
+    instructions_label.grid(row=1, columnspan=5, pady=(0, 5))
+
+    # Colores de las instrucciones
+    color_examples = [
+        ("VERDE: Letra en la posición correcta.", "green"),
+        ("AMARILLO: Letra en la posición incorrecta.", "#FCD12A"),
+        ("GRIS: Letra no presente en la palabra.", "gray")
+    ]
+
+    for i, (text, color) in enumerate(color_examples):
+        color_label = tk.Label(
+            central_frame, text=text,
+            bg="black" if current_time.hour >= 20 or current_time.hour < 6
+            else "white",
+            fg=color, font=("Arial", 14, "bold"), justify="center"
+            )
+        color_label.grid(row=2 + i, columnspan=5, pady=(0, 5))
 
     # Ejemplo de colores
     examples = [
@@ -89,7 +100,8 @@ def show_instructions():
                 )
             frame.insert(0, letter)
             frame.config(state="disabled")
-            frame.grid(row=i + 2, column=j, padx=10, pady=10)
+            frame.grid(row=i + 2 + len(color_examples),
+                       column=j, padx=10, pady=15)
 
     # Botón para empezar el juego centrado
     start_game_btn = tk.Button(
@@ -97,7 +109,8 @@ def show_instructions():
         command=start_game_handler,
         bg="green", fg="white", font=("Arial", 18)
         )
-    start_game_btn.grid(row=5, columnspan=5, pady=20, sticky="n")
+    start_game_btn.grid(row=5 + len(color_examples),
+                        columnspan=5, pady=20, sticky="n")
 
 
 # Definir una función para manejar el evento del botón
