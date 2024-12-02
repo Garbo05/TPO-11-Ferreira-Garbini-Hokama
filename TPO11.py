@@ -7,9 +7,6 @@ current_time = datetime.datetime.now()
 # Cargar la lista de palabras desde el archivo
 POSSIBLE_WORDS_LIST = load_words('words.txt')
 
-# Número máximo de intentos
-MAX_ATTEMPTS = 6
-
 # Crear la ventana de instrucciones como la ventana principal
 window_instructions = tk.Tk()
 window_instructions.attributes("-fullscreen", True)  # Pantalla completa
@@ -106,11 +103,6 @@ def show_instructions():
 # Definir una función para manejar el evento del botón
 def start_game_handler():
     window_instructions.destroy()
-    start_game()
-
-
-# Función para iniciar el juego (llama a la interfaz del archivo Funciones.py)
-def start_game():
     create_window()
 
 
